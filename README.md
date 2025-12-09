@@ -45,6 +45,7 @@ What is the difference between
 ### 3. 
 What is the difference between liveness and readiness probe?
 
+
 🟢 Readiness Probe — “Can this pod receive traffic right now?”
 
 A Readiness Probe tells Kubernetes whether the container is ready to serve requests.
@@ -62,6 +63,8 @@ Your backend needs 10 seconds to load a large ML model before it can handle requ
 Readiness Probe fails for 10 seconds → K8s sends no traffic to it.
 
 Once the container returns success (200), the pod becomes ready, and traffic starts flowing.
+
+
 
 🔴 Liveness Probe — “Is this pod still healthy or should it be restarted?”
 
