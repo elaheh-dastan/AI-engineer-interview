@@ -21,8 +21,8 @@ This must be implemented using PySpark (RDD or DataFrame).
 
 What is the difference between
 
-. reduceByKey(lambda a, b: a + b)
-. groupByKey().mapValues(sum)
+- reduceByKey(lambda a, b: a + b)
+- groupByKey().mapValues(sum)
 
 **groupByKey** groups data but it:
 
