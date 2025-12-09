@@ -1,5 +1,6 @@
 # AI-engineer-interview
 ## BNSF Railway
+### 1.
 You must write a PySpark function group_sort that:
 
 Reads a CSV with columns name and job.
@@ -19,6 +20,7 @@ This must be implemented using PySpark (RDD or DataFrame).
 [https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py](https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py)
 
 
+### 2.
 What is the difference between
 
 - reduceByKey(lambda a, b: a + b)
