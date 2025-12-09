@@ -17,3 +17,9 @@ job title ascending
 This must be implemented using PySpark (RDD or DataFrame).
 
 [https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py](https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py)
+
+
+What is the difference between
+
+. reduceByKey(lambda a, b: a + b)
+. groupByKey().mapValues(sum)
