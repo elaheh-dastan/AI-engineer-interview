@@ -21,5 +21,21 @@ This must be implemented using PySpark (RDD or DataFrame).
 
 What is the difference between
 
-- reduceByKey(lambda a, b: a + b)
--  groupByKey().mapValues(sum)
+. reduceByKey(lambda a, b: a + b)
+. groupByKey().mapValues(sum)
+
+**groupByKey** groups data but it:
+
+- Pulls all values of a key across nodes, more expensive
+
+- Uses more memory
+
+- Slower
+
+**reduceByKey** is preferred because it:
+
+- Reduces values before sending across network
+
+- Uses less memory
+
+- Is faster for aggregation tasks
