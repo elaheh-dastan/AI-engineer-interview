@@ -79,3 +79,19 @@ It no longer responds on /healthz.
 Liveness Probe fails → Kubernetes restarts the pod.
 
 This helps self-heal without human intervention.
+
+## Cresta
+You are tasked with implementing a simple job dispatcher that distributes incoming jobs to a pool of executors (i.e., workers). Each job is represented as an integer (its ID), and executors are dynamically added and removed during runtime.
+
+You must define two classes:
+
+Executor – Represents a worker that can accept jobs.
+
+method assignjob(jobid: int) which simply adds the job to its list of jobs.
+method executenextjob() which executes the next job in the list and removes it.
+JobDispatcher – Maintains a list of executors and distributes jobs to them.
+
+method add_executor(executor: Executor) to add an executor.
+method removeexecutor(executorid: str) to remove an executor.
+method dispatch(job_id: int) to assign a job to one of the executors.
+method getstate() that returns a mapping of executorid → job list.
