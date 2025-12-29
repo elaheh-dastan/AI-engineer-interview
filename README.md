@@ -81,6 +81,7 @@ Liveness Probe fails → Kubernetes restarts the pod.
 This helps self-heal without human intervention.
 
 ## Cresta
+### Coding Challenge
 You are tasked with implementing a simple job dispatcher that distributes incoming jobs to a pool of executors (i.e., workers). Each job is represented as an integer (its ID), and executors are dynamically added and removed during runtime.
 
 You must define two classes:
@@ -95,3 +96,14 @@ method add_executor(executor: Executor) to add an executor.
 method removeexecutor(executorid: str) to remove an executor.
 method dispatch(job_id: int) to assign a job to one of the executors.
 method getstate() that returns a mapping of executorid → job list.
+
+### Questions
+1. How do you know your LLM as a judge is working correctly?
+    1. Compare the LLM judge against human-labeled gold standards
+    2. Check for systematic bias across answer types: LLMs tend to have biases such as favoring longer answers, Give two semantically identical but stylistically different answers, check if the judge scores them equally.
+    3. Validate with perturbation tests. For example add typos → score shouldn't change.
+    4. Use adversarial evaluation. For example provide confident but wrong answers.
+    5. Cross-model agreement (ensemble judging)
+    6. Self-consistency checks. For example the same question multiple times
+    7. Check calibration. For example provide ambiguous or borderline inputs. see if the judge scores them near the middle (e.g., 0.45–0.55 relevance) instead of overconfident extremes.
+    8. 
