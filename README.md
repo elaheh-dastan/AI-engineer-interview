@@ -106,4 +106,3 @@ method getstate() that returns a mapping of executorid → job list.
     5. Cross-model agreement (ensemble judging)
     6. Self-consistency checks. For example the same question multiple times
     7. Check calibration. For example provide ambiguous or borderline inputs. see if the judge scores them near the middle (e.g., 0.45–0.55 relevance) instead of overconfident extremes.
-    8. 
