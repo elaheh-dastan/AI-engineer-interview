@@ -127,6 +127,6 @@ method getstate() that returns a mapping of executorid → job list.
         3. ❌ Longer sequences, higher compute cost
 2. Explain Autoregressive vs Masked Modeling
 
-AR predict the next token using only past tokens.
+    AR predict the next token using only past tokens.
 
-Masked Modeling predict missing tokens using both left and right context.
+    Masked Modeling predict missing tokens using both left and right context.
