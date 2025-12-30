@@ -130,3 +130,9 @@ method getstate() that returns a mapping of executorid → job list.
     AR predict the next token using only past tokens.
 
     Masked Modeling predict missing tokens using both left and right context.
+
+3. Explain prompt caching
+   A technique where repeated or reusable parts of a prompt are stored and reused. Many LLM requests share a large, static prefix, for example: System instructions. Prompt caching allows the model (or the serving system) to:
+       1. Compute embeddings / internal representations for the static part once
+       2.Reuse them across multiple requests
+       3.Only process the dynamic part (user query, last turn, variables)
