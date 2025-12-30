@@ -106,3 +106,20 @@ method getstate() that returns a mapping of executorid → job list.
     5. Cross-model agreement (ensemble judging)
     6. Self-consistency checks. For example the same question multiple times
     7. Check calibration. For example provide ambiguous or borderline inputs. see if the judge scores them near the middle (e.g., 0.45–0.55 relevance) instead of overconfident extremes.
+
+## LVT
+1. Can you explain OOV?
+   
+   OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
+       1. Traditional word-level models
+           1. Vocabulary is fixed
+           2. OOV words are mapped to a special token like <UNK>
+           3. ❌ Loses all information about the word
+       2. Subword-based models (modern NLP)
+           1. Examples: BPE, WordPiece, SentencePiece
+           2. Split words into smaller units: playstation5 → play, station, 5
+           3. ✅ Greatly reduces OOV problems
+       3. Character-level models
+           1. Operate on characters instead of words
+           2. Almost no OOV issues
+           3. ❌ Longer sequences, higher compute cost
