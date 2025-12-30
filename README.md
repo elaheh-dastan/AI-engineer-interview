@@ -108,9 +108,11 @@ method getstate() that returns a mapping of executorid → job list.
     7. Check calibration. For example provide ambiguous or borderline inputs. see if the judge scores them near the middle (e.g., 0.45–0.55 relevance) instead of overconfident extremes.
 
 ## LVT
+
 1. Can you explain OOV?
 
-OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
+    OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
+    
     1. Traditional word-level models
         1. Vocabulary is fixed
         2. OOV words are mapped to a special token like <UNK>
