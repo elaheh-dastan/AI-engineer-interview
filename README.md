@@ -109,17 +109,17 @@ method getstate() that returns a mapping of executorid → job list.
 
 ## LVT
 1. Can you explain OOV?
-   
-   OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
-       1. Traditional word-level models
-           1. Vocabulary is fixed
-           2. OOV words are mapped to a special token like <UNK>
-           3. ❌ Loses all information about the word
-       2. Subword-based models (modern NLP)
-           1. Examples: BPE, WordPiece, SentencePiece
-           2. Split words into smaller units: playstation5 → play, station, 5
-           3. ✅ Greatly reduces OOV problems
-       3. Character-level models
-           1. Operate on characters instead of words
-           2. Almost no OOV issues
-           3. ❌ Longer sequences, higher compute cost
+
+OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
+    1. Traditional word-level models
+        1. Vocabulary is fixed
+        2. OOV words are mapped to a special token like <UNK>
+        3. ❌ Loses all information about the word
+    2. Subword-based models (modern NLP)
+        1. Examples: BPE, WordPiece, SentencePiece
+        2. Split words into smaller units: playstation5 → play, station, 5
+        3. ✅ Greatly reduces OOV problems
+    3. Character-level models
+        1. Operate on characters instead of words
+        2. Almost no OOV issues
+        3. ❌ Longer sequences, higher compute cost
