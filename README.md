@@ -141,7 +141,7 @@ method getstate() that returns a mapping of executorid → job list.
 
 ## BitPin
 ### Probability and Statistics
-The probability of a fraud transaction in 0.008 and if the transaction is fraud we are gonna raise a flag 95% of the times, if the transaction is not a fraud we are gonna raise the flag 4% of the times. The cost of not rasing a flag if the transaction is fraud is 500 dollars and the cost of raising a flag if the transaction is not fraud is 10 dollars. Shall we deploy the model to production or not?
+1. The probability of a fraud transaction in 0.008 and if the transaction is fraud we are gonna raise a flag 95% of the times, if the transaction is not a fraud we are gonna raise the flag 4% of the times. The cost of not rasing a flag if the transaction is fraud is 500 dollars and the cost of raising a flag if the transaction is not fraud is 10 dollars. Shall we deploy the model to production or not?
 
 Option A is not deploying the model:
 
@@ -152,3 +152,9 @@ Option B is deploying the model:
 Cost per transaction = P(~flag|fraud) * P(fraud) * 500 + P(flag|~fraud) * P(~fraud) * 10 = 0.05 * 0.008 * 500 + 0.04 * 0.992 * 10 = 0.2 + 0.3968 = 0.5968$
 
 So it makes sense to deploy the model to production
+
+2. We can either call a person to be our customer with 100% success rate with 5$ cost, or we can send push notification with 30% success rate with 1$ cost. Which one is better?
+
+   Let's say we want to have N customers with first approach we have to spend 5N $ but with second approach 10/3N $ is enough so second approach is more cost efficient.
+
+3. 
