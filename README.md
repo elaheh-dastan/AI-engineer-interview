@@ -157,4 +157,10 @@ method getstate() that returns a mapping of executorid → job list.
 
    Let's say we want to have N customers with first approach we have to spend 5N $ but with second approach 10/3N $ is enough so second approach is more cost efficient.
 
-3. 
+### GenAI
+1. How can you make sure your semantic search model can work well for queries like "تیشرت قرمز زیر ۲۰ دلار مردانه"?
+   I suggest two approaches:
+   - This approach ensures that all conditions are met, but it increases the probability of returning no results in the system. We can use NER to understand the conditions specified in the query—such as color, price, and gender—and then apply these as variant filters in our QD search.
+   - This approach cannot guarantee that all conditions are met 100%, but it almost always returns a result. We can train the model with more generated data and create batches with targeted hard negatives. For example, if our dataset contains a T-shirt with a positive product pair, we can use additional specifications of that product—such as color and price—add them to the query, and generate more training pairs (e.g., red T-shirt, T-shirt under $20, red T-shirt under $20).
+
+    We can also repeat more important pairs more frequently; for instance, if price is a critical constraint, we can assign it a higher weight. Additionally, we should use similar but incorrect products as negatives, such as a blue T-shirt as a negative for a red T-shirt query. In this type of training, masking can also be effective, allowing the model to learn to attend to all specified constraints.
