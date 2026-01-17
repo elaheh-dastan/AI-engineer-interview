@@ -159,6 +159,11 @@ method getstate() that returns a mapping of executorid → job list.
 
 ### GenAI
 1. How can you make sure your semantic search model can work well for queries like "تیشرت قرمز زیر ۲۰ دلار مردانه"?
+
    I suggest two approaches:
    - This approach ensures that all conditions are met, but it increases the probability of returning no results in the system. We can use NER to understand the conditions specified in the query—such as color, price, and gender—and then apply these as variant filters in our QD search.
    - This approach cannot guarantee that all conditions are met 100%, but it almost always returns a result. We can train the model with more generated data and create batches with targeted hard negatives. For example, if our dataset contains a T-shirt with a positive product pair, we can use additional specifications of that product—such as color and price—add them to the query, and generate more training pairs (e.g., red T-shirt, T-shirt under $20, red T-shirt under $20). We can also repeat more important pairs more frequently; for instance, if price is a critical constraint, we can assign it a higher weight. Additionally, we should use similar but incorrect products as negatives, such as a blue T-shirt as a negative for a red T-shirt query. In this type of training, masking can also be effective, allowing the model to learn to attend to all specified constraints.
+  
+2. We have trained a model to encode queries and product titles to embeddings, if we add extra features to these embeddings like price or CR to use for personilzed or bussiness aware search, do the close embeddings still stay close to each other in this new space?
+
+   In my experience, the embedding had 512 dimensions, and I added fewer than 10 features to it. Since the number of added features was insignificant compared to the embedding size, it did not noticeably affect the system. However, theoretically, adding new dimensions does change the distance calculations.
