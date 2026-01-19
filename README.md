@@ -167,3 +167,8 @@ method getstate() that returns a mapping of executorid → job list.
 2. We have trained a model to encode queries and product titles to embeddings, if we add extra features to these embeddings like price or CR to use for personilzed or bussiness aware search, do the close embeddings still stay close to each other in this new space?
 
    In my experience, the embedding had 512 dimensions, and I added fewer than 10 features to it. Since the number of added features was insignificant compared to the embedding size, it did not noticeably affect the system. However, theoretically, adding new dimensions does change the distance calculations.
+
+3. What if we want both text and image data at the same time when searching?
+   - Concatenation
+   - Shared Multimodal Embedding Space (CLIP-style)
+   - Averaging (Only safe if text and image embeddings are in the same semantic space, A simple rule of thumb: If you didn’t explicitly train the model to be averaged, don’t average it.)
