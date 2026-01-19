@@ -172,3 +172,9 @@ method getstate() that returns a mapping of executorid → job list.
    - Concatenation
    - Shared Multimodal Embedding Space (CLIP-style)
    - Averaging (Only safe if text and image embeddings are in the same semantic space, A simple rule of thumb: If you didn’t explicitly train the model to be averaged, don’t average it.)
+
+
+### Statistical ML
+1. After using K-fold cross validation which of the K scalers that were fit shall I use?
+
+K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
