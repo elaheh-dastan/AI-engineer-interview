@@ -178,3 +178,10 @@ method getstate() that returns a mapping of executorid → job list.
 1. After using K-fold cross validation which of the K scalers that were fit shall I use?
 
 K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
+
+
+## LVT 
+We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
+
+The answer is in LVT.py but important points are listed below:
+- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
