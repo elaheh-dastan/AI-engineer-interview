@@ -185,3 +185,8 @@ We are building a simple similar product recommendation engine. We have a DB of 
 
 The answer is in LVT.py but important points are listed below:
 - Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
+- To find top k products we can:
+    - Compute similarity scores for all products and sort them (O(n log n)).
+    - Build a max heap from all scores and extract the top k (O(n + k log n)).
+    - Maintain a min-heap of size k while scanning all products (O(n log k)).
+    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
