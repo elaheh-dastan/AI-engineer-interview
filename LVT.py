@@ -1,5 +1,4 @@
 # Task 1: write a function to calculate the similarity (Dot Product) between two vectors.
-# Task 2: Given a query vector and a list of product vectors, find the ID of the top k similar items.
 
 import math
 # Example Data
@@ -31,3 +30,9 @@ def get_similarity(v1: list, v2: list) -> int:
   if len(v1) != len(v2):
     return None
   return cosine_similarity
+
+
+# Task 2: Given a query vector and a list of product vectors, find the ID of the top k similar items.
+
+def find_top_k(query: list, db: )
+
