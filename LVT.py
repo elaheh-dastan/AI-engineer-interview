@@ -10,3 +10,11 @@ database = [
   {"id": 103, "vector": [0.2, 0.4, 0.2]},
 ]
 
+def get_similarity(v1: list, v2: list) -> int:
+  if len(v1) != len(v2):
+    return None
+  res = 0
+  for a, b in zip(v1, v2):
+    res += a * b
+
+  return res
