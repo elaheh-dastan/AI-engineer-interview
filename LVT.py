@@ -33,6 +33,7 @@ def get_similarity(v1: list, v2: list) -> int:
 
 
 # Task 2: Given a query vector and a list of product vectors, find the ID of the top k similar items.
+## For all products compute similarity and sort them to get the top 
 
 def find_top_k(query: list, db: list[dict], k=2):
   k_winner = [-1] * k
