@@ -138,6 +138,17 @@ method getstate() that returns a mapping of executorid → job list.
    2. Reuse them across multiple requests
    3. Only process the dynamic part (user query, last turn, variables)
 
+### Coding
+We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
+
+The answer is in LVT.py but important points are listed below:
+- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
+- To find top k products we can:
+    - Compute similarity scores for all products and sort them (O(n log n)).
+    - Build a max heap from all scores and extract the top k (O(n + k log n)).
+    - Maintain a min-heap of size k while scanning all products (O(n log k)).
+    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
+
 
 ## BitPin
 ### Probability and Statistics
@@ -179,14 +190,12 @@ method getstate() that returns a mapping of executorid → job list.
 
 K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
 
+2. An archaeologist want to take a picture of three pillars, he wants a picture in which these pillars are as far each other as possible so he can eximane them better, the worst case scenario is that these pillars get behind each other in the picture. Where do you suggest him to stand for the best picture possible?
 
-## LVT 
-We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
+When we take a picture, we map a 3D world onto a 2D plane (a reduction in dimensionality). We want to do this in a way that preserves as much information as possible, meaning the projected points have maximum variance. Therefore, we use **PCA**.
 
-The answer is in LVT.py but important points are listed below:
-- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
-- To find top k products we can:
-    - Compute similarity scores for all products and sort them (O(n log n)).
-    - Build a max heap from all scores and extract the top k (O(n + k log n)).
-    - Maintain a min-heap of size k while scanning all products (O(n log k)).
-    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
+### Python
+what is generator?
+
+A generator is a special type of function that **returns values once at a time, instead of all at once**. It uses the keyword **yield** instead of return. They save memory and good for large dataset (for example **Data Loaders** are generators)
+
