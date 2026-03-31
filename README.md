@@ -215,3 +215,17 @@ Always run in verbose mode
 1. After using K-fold cross validation which of the K scalers that were fit shall I use?
 
 K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
+
+2. An archaeologist want to take a picture of three pillars, he wants a picture in which these pillars are as far each other as possible so he can eximane them better, the worst case scenario is that these pillars get behind each other in the picture. Where do you suggest him to stand for the best picture possible?
+
+When we take a picture, we map a 3D world onto a 2D plane (a reduction in dimensionality). We want to do this in a way that preserves as much information as possible, meaning the projected points have maximum variance. Therefore, we use **PCA**.
+
+### Python
+what is generator?
+
+A generator is a special type of function that **returns values once at a time, instead of all at once**. It uses the keyword **yield** instead of return. They save memory and good for large dataset (for example **Data Loaders** are generators)
+
+## CAT
+### Statistics and Probability
+1. A basket contains eigth red
+
