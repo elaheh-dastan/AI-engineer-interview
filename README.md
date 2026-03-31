@@ -138,6 +138,43 @@ method getstate() that returns a mapping of executorid → job list.
    2. Reuse them across multiple requests
    3. Only process the dynamic part (user query, last turn, variables)
 
+4. We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
+
+The answer is in **LVT.py** but important points are listed below:
+- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
+- To find top k products we can:
+    - Compute similarity scores for all products and sort them (O(n log n)).
+    - Build a max heap from all scores and extract the top k (O(n + k log n)).
+    - Maintain a min-heap of size k while scanning all products (O(n log k)).
+    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
+
+5. Pytest:
+
+Key Rules:
+- Test files must start with test_
+- Test functions must start with test_
+- Your tests should be separate from your application code
+- Why Is __init__.py There? To make Python treat the folder as a package. Without it, imports might fail depending on 
+how you run pytest.
+- What Is pytest.ini? pytest.ini is a configuration file that tells pytest:
+  - Where tests live 
+  - Which markers exist 
+  - Example:
+```
+[pytest]
+testpaths = tests
+python_files = test_*.py
+addopts = -v
+
+
+This means:
+
+Only look inside tests/
+
+Only run files that match test_*.py
+
+Always run in verbose mode
+```
 
 ## BitPin
 ### Probability and Statistics
@@ -178,15 +215,3 @@ method getstate() that returns a mapping of executorid → job list.
 1. After using K-fold cross validation which of the K scalers that were fit shall I use?
 
 K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
-
-
-## LVT 
-We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
-
-The answer is in LVT.py but important points are listed below:
-- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
-- To find top k products we can:
-    - Compute similarity scores for all products and sort them (O(n log n)).
-    - Build a max heap from all scores and extract the top k (O(n + k log n)).
-    - Maintain a min-heap of size k while scanning all products (O(n log k)).
-    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
