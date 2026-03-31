@@ -199,3 +199,7 @@ what is generator?
 
 A generator is a special type of function that **returns values once at a time, instead of all at once**. It uses the keyword **yield** instead of return. They save memory and good for large dataset (for example **Data Loaders** are generators)
 
+## CAT
+### Statistics and Probability
+1. A basket contains eigth red
+
