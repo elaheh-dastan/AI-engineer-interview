@@ -48,6 +48,8 @@ class VectorDB:
 
   def heap_sort(self, pv, similarity):
     i = find_index(self.winner_scores, similarity)
+    if i >= len(self.winners):
+      return
     self.winners = self.winners[:i] + [pv] + self.winners[i:-1]
     self.winner_scores = self.winner_scores[:i] + [similarity] + self.winner_scores[i:-1]
 
