@@ -244,3 +244,12 @@ A generator is a special type of function that **returns values once at a time, 
     precision: 100%
 
     recall: 50%
+
+3. Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, 
+return an empty string "".
+    
+    The answer is in **CAT.py**
+
+4. What is magic method? methods starting and ending with __ and it does operator overloading
+5. what is decorator? A function that gets a function add some capabilities to it and returns another function. Look at 
+**decorator.py**
