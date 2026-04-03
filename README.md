@@ -231,5 +231,12 @@ A generator is a special type of function that **returns values once at a time, 
 
    P = 8/10 * 7/9 * 6/8 * 5/7 =  1/3
 
-2. The model answer: [0, 1, 1, 0, 0], the real target: [1, 1, 1, 0, 1] 
+2. The model answer: [0, 1, 1, 0, 0], the real target: [1, 1, 1, 0, 1]. Calculate precision and recall.
+   precision = TP/(TP + FP)
+   recall = TP/(TP + FN)
+TP: 2
+FP: 0
+FN: 2
 
+precision: 100%
+recall: 50%
