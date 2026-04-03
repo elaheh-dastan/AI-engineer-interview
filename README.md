@@ -237,10 +237,10 @@ A generator is a special type of function that **returns values once at a time, 
    
    recall = TP/(TP + FN)
    
-- TP: 2
-- FP: 0
-- FN: 2
+    - TP: 2
+    - FP: 0
+    - FN: 2
 
-precision: 100%
+    precision: 100%
 
-recall: 50%
+    recall: 50%
