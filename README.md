@@ -227,5 +227,9 @@ A generator is a special type of function that **returns values once at a time, 
 
 ## CAT
 ### Statistics and Probability
-1. A basket contains eigth red
+1. A basket contains eigth red apples and two green apples. Find the probability that all four apples drawn are red.
+
+   P = 8/10 * 7/9 * 6/8 * 5/7 =  1/3
+
+2. The model answer: [0, 1, 1, 0, 0], the real target: [1, 1, 1, 0, 1] 
 
