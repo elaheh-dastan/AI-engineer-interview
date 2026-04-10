@@ -259,10 +259,10 @@ return an empty string "".
 ### AI/ML
 6. What is vLLM? vLLM is a high performance inference engine for LLMs, efficiently serves models like LLaMA or GPT
 7. What is the difference between feature drift and concept drift? 
-### Feature Drift
+##### Feature Drift
 The input feature distribution changes but the relationship between input and target stays the same. The world looks different but the rules haven't changed. For example users used to search for cheap cellphones but now they search for expensive ones. Model sees inputs it hasn't seen before so performance degrades, retraining usually fixes it.
-### Concept Drift
+##### Concept Drift
 The relationship between input and output changes (the rule of the game changes), for example people used to mean fruit when searching for apple now they mean cellphone. Now your model is fundamentally wrong. Retraining alone may not solve it, you may need new model design, new labels, new features.
-### 🔥 Rule of thumb
+##### 🔥 Rule of thumb
 - If inputs changed → feature drift
 - If predictions became wrong for same inputs → concept drift
