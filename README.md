@@ -266,3 +266,6 @@ The relationship between input and output changes (the rule of the game changes)
 ##### 🔥 Rule of thumb
 - If inputs changed → feature drift
 - If predictions became wrong for same inputs → concept drift
+
+## Osano
+Imagine an agent that tries to be our ai-data-scientist, in the first node it gets our requirement and in second node it translates our requirement to SQL and then in third and fourth node it created plots and reports, now if user mentions in first node that it wants the plot in a specific color like pink, how can this data be passed to the third node? the second node's job is to create SQL queries, won't this type of data be missed?
