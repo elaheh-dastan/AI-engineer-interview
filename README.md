@@ -269,3 +269,5 @@ The relationship between input and output changes (the rule of the game changes)
 
 ## Osano
 Imagine an agent that tries to be our ai-data-scientist, in the first node it gets our requirement and in second node it translates our requirement to SQL and then in third and fourth node it created plots and reports, now if user mentions in first node that it wants the plot in a specific color like pink, how can this data be passed to the third node? the second node's job is to create SQL queries, won't this type of data be missed?
+
+We should use a shared structured state that persists across all nodes. The first step should extract and decompose the user’s intent into different dimensions (e.g., data, analysis, presentation). Each node then operates only on its relevant part of the state and updates it without overwriting other parts. This avoids information loss and removes the need for nodes to infer or recover missing intent.
