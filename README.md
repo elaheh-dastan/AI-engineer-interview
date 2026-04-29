@@ -253,3 +253,8 @@ return an empty string "".
 4. What is magic method? methods starting and ending with __ and it does operator overloading
 5. what is decorator? A function that gets a function add some capabilities to it and returns another function. Look at 
 **decorator.py**
+
+
+# Goodfolio
+1. Find the first unrepeated character in a string. The answer is in **goodfolio.py**
+2. Given a list of numbers and a target, return all tuples that their sum is equal to that target. The answer is in **goodfolio.py**
