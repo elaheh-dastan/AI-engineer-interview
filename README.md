@@ -245,14 +245,34 @@ A generator is a special type of function that **returns values once at a time, 
 
     recall: 50%
 
+### Coding
 3. Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, 
 return an empty string "".
     
     The answer is in **CAT.py**
 
+### Python
 4. What is magic method? methods starting and ending with __ and it does operator overloading
 5. what is decorator? A function that gets a function add some capabilities to it and returns another function. Look at 
 **decorator.py**
+
+### AI/ML
+6. What is vLLM? vLLM is a high performance inference engine for LLMs, efficiently serves models like LLaMA or GPT
+7. What is the difference between feature drift and concept drift? 
+##### Feature Drift
+The input feature distribution changes but the relationship between input and target stays the same. The world looks different but the rules haven't changed. For example users used to search for cheap cellphones but now they search for expensive ones. Model sees inputs it hasn't seen before so performance degrades, retraining usually fixes it.
+##### Concept Drift
+The relationship between input and output changes (the rule of the game changes), for example people used to mean fruit when searching for apple now they mean cellphone. Now your model is fundamentally wrong. Retraining alone may not solve it, you may need new model design, new labels, new features.
+##### 🔥 Rule of thumb
+- If inputs changed → feature drift
+- If predictions became wrong for same inputs → concept drift
+
+## Osano
+Imagine an agent that tries to be our ai-data-scientist, in the first node it gets our requirement and in second node it translates our requirement to SQL and then in third and fourth node it created plots and reports, now if user mentions in first node that it wants the plot in a specific color like pink, how can this data be passed to the third node? the second node's job is to create SQL queries, won't this type of data be missed?
+
+We should use a shared structured state that persists across all nodes. The first step should extract and decompose the user’s intent into different dimensions (e.g., data, analysis, presentation). Each node then operates only on its relevant part of the state and updates it without overwriting other parts. This avoids information loss and removes the need for nodes to infer or recover missing intent.
+
+
 
 
 # Goodfolio
