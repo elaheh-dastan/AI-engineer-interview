@@ -278,3 +278,8 @@ We should use a shared structured state that persists across all nodes. The firs
 # Goodfolio
 1. Find the first unrepeated character in a string. The answer is in **goodfolio.py**
 2. Given a list of numbers and a target, return all tuples that their sum is equal to that target. The answer is in **goodfolio.py**
+
+
+# Picnic
+## System Design
+At Picnic, we have a section for recipes and articles. Design a personalized recommendation system for this content.
