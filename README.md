@@ -287,3 +287,7 @@ At Picnic, we have a section for recipes and articles. Design a personalized rec
 # FanDuel
 ## System Design
 There's a SQLite database on this machine called products.db. It has a table called product_qa with three columns: product, question, and answer. Build me a simple app where a store associate types in a question, and the app finds the most relevant answer from that table and displays it — along with which product it came from.
+
+My answer to this question as an AI engineer was a "semantic search design", I said I'd use a NL model to transform all the questions in the product_qa table to embeddings and store those embeddings in a vector db like Qdrant and keep the primary key as metadata. Then transform the coming question to embedding using the same model and search for closest question or questions using my vector db then I'd either just return the answer of top 1 (semantic search) or generate an answer using an LLM call providing the top k answers as context.
+
+but I was rejected 
