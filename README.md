@@ -291,3 +291,7 @@ There's a SQLite database on this machine called products.db. It has a table cal
 My answer to this question as an AI engineer was a "semantic search design", I said I'd use a NL model to transform all the questions in the product_qa table to embeddings and store those embeddings in a vector db like Qdrant and keep the primary key as metadata. Then transform the coming question to embedding using the same model and search for closest question or questions using my vector db then I'd either just return the answer of top 1 (semantic search) or generate an answer using an LLM call providing the top k answers as context.
 
 but I was rejected 
+
+I guess the reason is I jumped into a complex, costy solution before trying out simpler solution, a simpler solution would be:
+
+using SQLite FTS5 + BM25 ranking: SQLite has a builtin full text search engine that lets you create a special virtual table optimized for searching text columns and BM25 is an algorithm upon TF-IDF that helps estimate the relevance of a document, it won't need any external vector db, any embedding model. My approach will do better when questions are semantically different or same, the table is large, and the app must handle phrases well but it's not wise to jump into that solution before testing this easy one. 
