@@ -295,3 +295,8 @@ but I was rejected
 I guess the reason is I jumped into a complex, costy solution before trying out simpler solution, a simpler solution would be:
 
 using SQLite FTS5 + BM25 ranking: SQLite has a builtin full text search engine that lets you create a special virtual table optimized for searching text columns and BM25 is an algorithm upon TF-IDF that helps estimate the relevance of a document, it won't need any external vector db, any embedding model. My approach will do better when questions are semantically different or same, the table is large, and the app must handle phrases well but it's not wise to jump into that solution before testing this easy one. 
+
+# HomeDepot
+A data scientist hands you a Jupyter notebook. It trains an XGBoost model on a pandas DataFrame, pickles the model, and has a few cells with ad-hoc feature engineering. Your job is to get this into production. Walk me through what you do, in order.
+
+We should change the jupyter notebook to python script so it can be run thoroughly, for ad-hoc feature engineering I'm gonna use a feature store like Feast and for model string I'm gonna use something like S3 and MLFlow for model versioning, I may change the code itself so it uses Dask instead of pandas to speed thing up
