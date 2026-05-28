@@ -305,4 +305,10 @@ I was accepted but an imporved answer:
 
 you think about **reproducibility, correctness, serving, monitoring and operational risk**
 
-1. Clarify batch or online inference, latency requirement, 
+1. Clarify batch or online inference, latency requirement, retraining cadence, expected input data and success metric
+2. Make the notebook reproducible, I would pin dependencies, exact training data, rerun it end to end.
+3. Extract the notebook into a package or pipeline
+4. Add model versioning and monitoring and define online and offline metrics
+5. Choose serving pattern: a batch scoring job or an online API
+6. Containerize, CI/CD, unit and smoke test, rollback support
+7. Finally suggesting to make the code more mature and increase speed or throuput by using Dask or Spark instead of pandas.
