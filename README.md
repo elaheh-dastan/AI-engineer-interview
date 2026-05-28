@@ -299,4 +299,10 @@ using SQLite FTS5 + BM25 ranking: SQLite has a builtin full text search engine t
 # HomeDepot
 A data scientist hands you a Jupyter notebook. It trains an XGBoost model on a pandas DataFrame, pickles the model, and has a few cells with ad-hoc feature engineering. Your job is to get this into production. Walk me through what you do, in order.
 
-We should change the jupyter notebook to python script so it can be run thoroughly, for ad-hoc feature engineering I'm gonna use a feature store like Feast and for model string I'm gonna use something like S3 and MLFlow for model versioning, I may change the code itself so it uses Dask instead of pandas to speed thing up
+We should change the jupyter notebook to python script so it can be run thoroughly, for ad-hoc feature engineering I'm gonna use a feature store like Feast and for model storing I'm gonna use something like S3 and MLFlow for model versioning, I may change the code itself so it uses Dask instead of pandas to speed things up, if the model is trained periodically I'll use something like Airflow and I'll have to write a microservice by a language like Python or Golang to serve the model
+
+I was accepted but an imporved answer:
+
+you think about **reproducibility, correctness, serving, monitoring and operational risk**
+
+1. Clarify batch or online inference, latency requirement, 
