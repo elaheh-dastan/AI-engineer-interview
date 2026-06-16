@@ -312,3 +312,22 @@ you think about **reproducibility, correctness, serving, monitoring and operatio
 5. Choose serving pattern: a batch scoring job or an online API
 6. Containerize, CI/CD, unit and smoke test, rollback support
 7. Finally suggesting to make the code more mature and increase speed or throuput by using Dask or Spark instead of pandas.
+
+
+# Headspace
+In our app people can chat with our AI bot addressing the issues they have like work pressure, anxiety etc. We have a section in our app that recommends articles to users, how do you design it?
+
+My response:
+
+Basically there are two ways to view this problem,
+
+1. I have enough data what articles my users read and enjoy and I can figure out relations between my users to see if they look similar to each other or not, and based on that I can simply say user Y looks like user X and if user X liked this article I should suggest it to user Y too. (collaborative filtering) (Evidence from behavior)
+
+2. Without considering how close or far from each other users act, based on the features that users have and the features that articles have and the info on what each user liked and enjoyed we can create embeddings for users and article, in this embedding world the articles that users like are close to each other. (two tower model) (Relevance to the current problem)
+
+For an MVP, I try collaborative filtering because its straight forward and easy to implement, the point is you have to have significant amount of data and it doesn't work for new users and new articles.
+
+In a high scale real system we need both views so we either use both approaches and combine results or as I prefer to use a hybrid model from the beginning so we can choose:
+
+1. two-tower contrastive model
+2. feature-aware matrix factorization
