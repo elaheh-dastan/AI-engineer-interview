@@ -331,3 +331,11 @@ In a high scale real system we need both views so we either use both approaches 
 
 1. two-tower contrastive model
 2. feature-aware matrix factorization
+
+These two approaches are similar but not the same, basically it makes more sense to use feature aware MF when you have rich, good quality features for user and article for example
+
+U: issue=anxiety, situation=workplace, urgency=high
+
+A: context=breathing, length=short
+
+in that case feature aware MF can help learn a latent represantation for each feature and the relation between them but if you only want to use user chat history and article content then a two tower comtrastive model makes more sense
