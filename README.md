@@ -345,6 +345,8 @@ Usually we use two tower contrastive model to retrive candidates and then a rank
 
 # Sema4
 1. What is the difference between skill and agent?
+   
     A skill is an instruction package. It tells the model how to do a specific class of task, such as following a coding convention. It says: "here is how to do X".
+   
     An agent is an autonomous system that can plan, decide next steps, use tools, manage state, and iterate toward a goal.
    
