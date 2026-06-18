@@ -342,3 +342,9 @@ in that case feature aware MF can help learn a latent represantation for each fe
 Usually feature aware MF is not used by itself though theroticaly it works but for high scale use cases it is so slow, imagine a new use converstaion happen, then we have to calculate the score between this user and all articles again, it can be millions of articles so it's not good for real time or fast processes, fine if you want to do it periodically like once a week but if you want to update yourself whenever a new article or new use chat converstiona comes by, it is not realistic to think we can claculate the all these scores again so fast. In two tower contrastive model approach when a user new chat comes by we can easily and fast compute the user embedding again, we already have articles embeddings in a vector db and using huristic nearest neighbor approaches like HNSW we can get related articles in no time.
 
 Usually we use two tower contrastive model to retrive candidates and then a ranking
+
+# Sema4
+1. What is the difference between skill and agent?
+    A skill is an instruction package. It tells the model how to do a specific class of task, such as following a coding convention. It says: "here is how to do X".
+    An agent is an autonomous system that can plan, decide next steps, use tools, manage state, and iterate toward a goal.
+   
