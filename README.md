@@ -343,6 +343,17 @@ Usually feature aware MF is not used by itself though theroticaly it works but f
 
 Usually we use two-stage sytstem. A two tower contrastive model retrives semantically relevant candidates efficiently from the full catalog. We can include features such as urgency and article length in the towers, but the final score is still constrained to a similarity between independently computed embeddings. A ranker sees each user-article combination jointlly and can model richer interactions, such as urgency with article length, using a larger computational budget because it evaluates only hundreds of candidates. Explicit ranking features may also make individual score contributions easier to inspect. Finally, I can iterate on and retrain the ranker without retraining the retrieval model or rebuilding the vector index.
 
+After the retreival, we get to ranking:
+
+1. For each article and the request create features:
+
+   article: article length, retrieval score, etc.
+
+   request: urgency, age, etc.
+
+2. During training we attach a label to see either the article was helpful for that request or not, the factorization machine learns embeddings for feature values. Gradient descent makes interactions common in helpful ezamples more positive and interactions common in unhelpful examples more negative.
+3. At prediction, create the same features and sort by score
+
 # Sema4
 1. What is the difference between skill and agent?
    
