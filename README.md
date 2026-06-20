@@ -354,6 +354,13 @@ After the retreival, we get to ranking:
 2. During training we attach a label to see either the article was helpful for that request or not, the factorization machine learns embeddings for feature values. Gradient descent makes interactions common in helpful ezamples more positive and interactions common in unhelpful examples more negative.
 3. At prediction, create the same features and sort by score
 
+Some articles are prefered to be showen in daytime and some other in nighttime, what if it is daytime but are the articles retrieved are for night time?
+
+There are two approaches I suggest
+
+1. If it is really necessary and important to show nighttime articles at night and daytime articles at day, we have to put it in the retrieval step, which means we have to put it in the embedding, for example get the embedding from two tower model and then increase the embedding size and put article time preference and time of request in article and request embedding so in retrieval it plays a role and can be given more or less importancce based on how much of the dot calculation weight is given to that
+2. If it is just a preference not necessary we can retrieve k articles and it none are in the time we'd like we can retrieve 2k and so on.
+
 # Sema4
 1. What is the difference between skill and agent?
    
