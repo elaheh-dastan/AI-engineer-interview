@@ -358,8 +358,8 @@ Some articles are prefered to be showen in daytime and some other in nighttime, 
 
 There are two approaches I suggest
 
-1. If it is really necessary and important to show nighttime articles at night and daytime articles at day, we have to put it in the retrieval step, which means we have to put it in the embedding, for example get the embedding from two tower model and then increase the embedding size and put article time preference and time of request in article and request embedding so in retrieval it plays a role and can be given more or less importancce based on how much of the dot calculation weight is given to that
-2. If it is just a preference not necessary we can retrieve k articles and it none are in the time we'd like we can retrieve 2k and so on.
+1. If it is really necessary and important to show nighttime articles at night and daytime articles at day, we have to put it in the retrieval step, which means we have to put it in the embedding, for example get the embedding from two tower model and then increase the embedding size and put article time preference and time of request in article and request embeddings so in retrieval it plays a role and can be given more or less importance based on how much of the dot calculation weight is given to that dimention
+2. If it is just a preference not necessary we can retrieve k articles and if none are in the time we'd like we can retrieve 2k and so on.
 
 # Sema4
 1. What is the difference between skill and agent?
