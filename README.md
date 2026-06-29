@@ -470,7 +470,7 @@ serving, monitoring, and operational risk**:
 
 ## Headspace
 
-In our app, people can chat with our AI bot about issues like work pressure, anxiety, etc.
+1. In our app, people can chat with our AI bot about issues like work pressure, anxiety, etc.
 We have a section that recommends articles to users. How do you design it?
 
 My response:
@@ -550,6 +550,9 @@ Two approaches:
    much weight that dimension gets in the dot product.
 2. If it is just a preference, not a necessity, we can retrieve k articles and, if none are
    in the time we'd like, retrieve 2k, and so on.
+
+2. We have an EBB application and we want to escalate if user is talking about doing something hurtful like commiting suidsice, how can we make sure we're doing it as fast as possible?
+   
 
 ---
 
