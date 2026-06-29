@@ -66,18 +66,19 @@ class JobDispatcher:
         return repr_dict
 
 
-global_job_dispatcher = JobDispatcher()
+if __name__ == "__main__":
+    global_job_dispatcher = JobDispatcher()
 
-executor_1 = Executor(1)
-executor_2 = Executor(2)
+    executor_1 = Executor(1)
+    executor_2 = Executor(2)
 
-global_job_dispatcher.add_executor(executor_1)
-global_job_dispatcher.add_executor(executor_2)
+    global_job_dispatcher.add_executor(executor_1)
+    global_job_dispatcher.add_executor(executor_2)
 
-global_job_dispatcher.dispatch(1)
-global_job_dispatcher.dispatch(2)
-global_job_dispatcher.dispatch(3)
-global_job_dispatcher.remove_executor(2)
-global_job_dispatcher.dispatch(4)
+    global_job_dispatcher.dispatch(1)
+    global_job_dispatcher.dispatch(2)
+    global_job_dispatcher.dispatch(3)
+    global_job_dispatcher.remove_executor(2)
+    global_job_dispatcher.dispatch(4)
 
-print(global_job_dispatcher.get_state())
+    print(global_job_dispatcher.get_state())

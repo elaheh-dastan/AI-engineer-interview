@@ -62,15 +62,16 @@ class VectorDB:
 
     return self.winners
 
-print(find_index([8, 7, 6, 4, 3], 5))
-database = [
-  {"id": 101, "vector": [0.1, 0.5, 0.2]},
-  {"id": 102, "vector": [0.9, 0.1, 0.0]},
-  {"id": 103, "vector": [0.2, 0.4, 0.2]},
-]
+if __name__ == "__main__":
+  print(find_index([8, 7, 6, 4, 3], 5))
+  database = [
+    {"id": 101, "vector": [0.1, 0.5, 0.2]},
+    {"id": 102, "vector": [0.9, 0.1, 0.0]},
+    {"id": 103, "vector": [0.2, 0.4, 0.2]},
+  ]
 
-query_vec = [0.1, 0.5, 0.2]
+  query_vec = [0.1, 0.5, 0.2]
 
-vectorDB = VectorDB(database)
-print(vectorDB.find_top_k(query_vec))
+  vectorDB = VectorDB(database)
+  print(vectorDB.find_top_k(query_vec))
 

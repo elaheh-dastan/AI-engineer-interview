@@ -1,370 +1,564 @@
-# AI-engineer-interview
+# AI Engineer Interview Questions
+
+A collection of questions (and my answers) from AI-engineering interviews, grouped by
+company. Coding answers live in the [`solutions/`](solutions/) directory, one folder per
+company.
+
+## Table of contents
+
+- [BNSF Railway](#bnsf-railway)
+- [Cresta](#cresta)
+- [LVT](#lvt)
+- [BitPin](#bitpin)
+- [CAT](#cat)
+- [PetroPower](#petropower)
+- [Goodfolio](#goodfolio)
+- [Picnic](#picnic)
+- [FanDuel](#fanduel)
+- [AveeHealth](#aveehealth)
+- [Headspace](#headspace)
+- [Sema4](#sema4)
+
+### Solutions index
+
+| Company      | Problem                   | File                                                                               |
+| ------------ | ------------------------- | ---------------------------------------------------------------------------------- |
+| BNSF Railway | PySpark `group_sort`      | [`solutions/bnsf/group_sort.py`](solutions/bnsf/group_sort.py)                     |
+| Cresta       | Job dispatcher            | [`solutions/cresta/job_dispatcher.py`](solutions/cresta/job_dispatcher.py)         |
+| LVT          | Similar-product retrieval | [`solutions/lvt/similar_products.py`](solutions/lvt/similar_products.py)           |
+| CAT          | Longest common prefix     | [`solutions/cat/longest_common_prefix.py`](solutions/cat/longest_common_prefix.py) |
+| CAT          | Timing decorator          | [`solutions/cat/decorator.py`](solutions/cat/decorator.py)                         |
+| Goodfolio    | Array problems            | [`solutions/goodfolio/array_problems.py`](solutions/goodfolio/array_problems.py)   |
+
+---
+
 ## BNSF Railway
-### 1.
-You must write a PySpark function group_sort that:
 
-Reads a CSV with columns name and job.
+### 1. PySpark `group_sort`
 
-Counts how many times each job appears.
+Write a PySpark function `group_sort` that:
 
-Returns a dictionary {job: count}.
-
-Sorts by:
-
-count ascending
-
-job title ascending
+- Reads a CSV with columns `name` and `job`.
+- Counts how many times each job appears.
+- Returns a dictionary `{job: count}`.
+- Sorts by count ascending, then job title ascending.
 
 This must be implemented using PySpark (RDD or DataFrame).
 
-[https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py](https://github.com/elaheh-dastan/AI-engineer-interview/blob/main/bnsf.py)
+➡️ Solution: [`solutions/bnsf/group_sort.py`](solutions/bnsf/group_sort.py)
 
+### 2. `reduceByKey` vs `groupByKey().mapValues(sum)`
 
-### 2.
-What is the difference between
+What is the difference between `reduceByKey(lambda a, b: a + b)` and
+`groupByKey().mapValues(sum)`?
 
-- reduceByKey(lambda a, b: a + b)
-- groupByKey().mapValues(sum)
-
-**groupByKey** groups data but it:
+**`groupByKey`** groups data but it:
 
 - Pulls all values of a key across nodes, more expensive
-
 - Uses more memory
-
 - Slower
 
-**reduceByKey** is preferred because it:
+**`reduceByKey`** is preferred because it:
 
 - Reduces values before sending across network
-
 - Uses less memory
-
 - Is faster for aggregation tasks
 
-### 3. 
-What is the difference between liveness and readiness probe?
-<br><br>
-🟢 Readiness Probe — “Can this pod receive traffic right now?”
+### 3. Liveness vs readiness probes
 
-A Readiness Probe tells Kubernetes whether the container is ready to serve requests.
+What is the difference between a liveness and a readiness probe?
 
-If readiness fails, Kubernetes removes the pod from the Service load balancer.
+🟢 **Readiness Probe — "Can this pod receive traffic right now?"**
 
-But the pod is not restarted — it stays alive.
+A readiness probe tells Kubernetes whether the container is ready to serve requests.
+If readiness fails, Kubernetes removes the pod from the Service load balancer, but the
+pod is **not** restarted — it stays alive. Used when the app is temporarily unable to
+accept traffic (e.g., warming up, dependencies down).
 
-Used when the app is temporarily not able to accept traffic (e.g., warming up, dependencies down).
+✔ _Example — app still starting up:_ your backend needs 10 seconds to load a large ML
+model before it can handle requests. The readiness probe fails for 10 seconds → K8s
+sends no traffic to it. Once the container returns success (200), the pod becomes ready
+and traffic starts flowing.
 
-✔ Example Scenario — App still starting up
+🔴 **Liveness Probe — "Is this pod still healthy or should it be restarted?"**
 
-Your backend needs 10 seconds to load a large ML model before it can handle requests.
+A liveness probe detects whether the app is alive or stuck. If liveness fails,
+Kubernetes will kill and restart the pod. Used for detecting deadlocks, memory
+corruption, or frozen processes.
 
-Readiness Probe fails for 10 seconds → K8s sends no traffic to it.
+✔ _Example — app gets stuck:_ your backend hangs because of a deadlock or runs out of
+memory. It no longer responds on `/healthz`. The liveness probe fails → Kubernetes
+restarts the pod. This helps self-heal without human intervention.
 
-Once the container returns success (200), the pod becomes ready, and traffic starts flowing.
-<br><br>
-🔴 Liveness Probe — “Is this pod still healthy or should it be restarted?”
-
-A Liveness Probe detects whether the app is alive or stuck.
-
-If liveness fails, Kubernetes will kill and restart the pod.
-
-Used for detecting deadlocks, memory corruption, or frozen processes.
-
-✔ Example Scenario — App gets stuck
-
-Your backend hangs because of a deadlock or runs out of memory.
-It no longer responds on /healthz.
-
-Liveness Probe fails → Kubernetes restarts the pod.
-
-This helps self-heal without human intervention.
+---
 
 ## Cresta
-### Coding Challenge
-You are tasked with implementing a simple job dispatcher that distributes incoming jobs to a pool of executors (i.e., workers). Each job is represented as an integer (its ID), and executors are dynamically added and removed during runtime.
 
-You must define two classes:
+### 1. Job dispatcher (coding challenge)
 
-Executor – Represents a worker that can accept jobs.
+Implement a simple job dispatcher that distributes incoming jobs to a pool of executors
+(workers). Each job is represented as an integer (its ID), and executors are dynamically
+added and removed during runtime.
 
-method assignjob(jobid: int) which simply adds the job to its list of jobs.
-method executenextjob() which executes the next job in the list and removes it.
-JobDispatcher – Maintains a list of executors and distributes jobs to them.
+Define two classes:
 
-method add_executor(executor: Executor) to add an executor.
-method removeexecutor(executorid: str) to remove an executor.
-method dispatch(job_id: int) to assign a job to one of the executors.
-method getstate() that returns a mapping of executorid → job list.
+**`Executor`** – represents a worker that can accept jobs.
 
-### Questions
-1. How do you know your LLM as a judge is working correctly?
-    1. Compare the LLM judge against human-labeled gold standards
-    2. Check for systematic bias across answer types: LLMs tend to have biases such as favoring longer answers, Give two semantically identical but stylistically different answers, check if the judge scores them equally.
-    3. Validate with perturbation tests. For example add typos → score shouldn't change.
-    4. Use adversarial evaluation. For example provide confident but wrong answers.
-    5. Cross-model agreement (ensemble judging)
-    6. Self-consistency checks. For example the same question multiple times
-    7. Check calibration. For example provide ambiguous or borderline inputs. see if the judge scores them near the middle (e.g., 0.45–0.55 relevance) instead of overconfident extremes.
+- `assign_job(job_id: int)` — adds the job to its list of jobs.
+- `execute_next_job()` — executes the next job in the list and removes it.
+
+**`JobDispatcher`** – maintains a list of executors and distributes jobs to them.
+
+- `add_executor(executor: Executor)` — add an executor.
+- `remove_executor(executor_id: str)` — remove an executor.
+- `dispatch(job_id: int)` — assign a job to one of the executors.
+- `get_state()` — returns a mapping of `executor_id → job list`.
+
+➡️ Solution: [`solutions/cresta/job_dispatcher.py`](solutions/cresta/job_dispatcher.py)
+
+### 2. How do you know your LLM-as-a-judge is working correctly?
+
+1. Compare the LLM judge against human-labeled gold standards.
+2. Check for systematic bias across answer types: LLMs tend to favor longer answers, etc.
+   Give two semantically identical but stylistically different answers and check if the
+   judge scores them equally.
+3. Validate with perturbation tests — e.g. add typos → score shouldn't change.
+4. Use adversarial evaluation — e.g. provide confident but wrong answers.
+5. Cross-model agreement (ensemble judging).
+6. Self-consistency checks — e.g. ask the same question multiple times.
+7. Check calibration — e.g. provide ambiguous/borderline inputs and see if the judge
+   scores them near the middle (e.g. 0.45–0.55 relevance) instead of overconfident
+   extremes.
+
+---
 
 ## LVT
 
-1. Can you explain OOV?
+### 1. Can you explain OOV?
 
-    OOV stands for Out-Of-Vocabulary. A word, token, or symbol that does not exist in the model’s known vocabulary:
-    
-    1. Traditional word-level models
-        1. Vocabulary is fixed
-        2. OOV words are mapped to a special token like <UNK>
-        3. ❌ Loses all information about the word
-    2. Subword-based models (modern NLP)
-        1. Examples: BPE, WordPiece, SentencePiece
-        2. Split words into smaller units: playstation5 → play, station, 5
-        3. ✅ Greatly reduces OOV problems
-    3. Character-level models
-        1. Operate on characters instead of words
-        2. Almost no OOV issues
-        3. ❌ Longer sequences, higher compute cost
-2. Explain Autoregressive vs Masked Modeling
+OOV stands for **Out-Of-Vocabulary**: a word, token, or symbol that does not exist in
+the model's known vocabulary.
 
-    AR predict the next token using only past tokens.
+1. **Traditional word-level models**
+   - Vocabulary is fixed.
+   - OOV words are mapped to a special token like `<UNK>`.
+   - ❌ Loses all information about the word.
+2. **Subword-based models (modern NLP)**
+   - Examples: BPE, WordPiece, SentencePiece.
+   - Split words into smaller units: `playstation5 → play, station, 5`.
+   - ✅ Greatly reduces OOV problems.
+3. **Character-level models**
+   - Operate on characters instead of words.
+   - Almost no OOV issues.
+   - ❌ Longer sequences, higher compute cost.
 
-    Masked Modeling predict missing tokens using both left and right context.
+### 2. Autoregressive vs masked modeling
 
-3. Explain prompt caching
+AR predicts the next token using only past tokens. Masked modeling predicts missing
+tokens using both left and right context.
 
-   A technique where repeated or reusable parts of a prompt are stored and reused. Many LLM requests share a large, static prefix, for example: System instructions. Prompt caching allows the model (or the serving system) to:
-   1. Compute embeddings / internal representations for the static part once
-   2. Reuse them across multiple requests
-   3. Only process the dynamic part (user query, last turn, variables)
+### 3. Explain prompt caching
 
-4. We are building a simple similar product recommendation engine. We have a DB of items, where each item is represented by an embedding.
+A technique where repeated or reusable parts of a prompt are stored and reused. Many LLM
+requests share a large, static prefix (for example, system instructions). Prompt caching
+allows the model (or the serving system) to:
 
-The answer is in **LVT.py** but important points are listed below:
-- Cosine similarity equals the dot product of two vectors divided by the product of their magnitudes. To measure semantic similarity between product embeddings, we should use cosine similarity rather than a raw dot product. This means the vectors must be normalized; otherwise, **vector magnitude will incorrectly inflate similarity scores.**
-- To find top k products we can:
-    - Compute similarity scores for all products and sort them (O(n log n)).
-    - Build a max heap from all scores and extract the top k (O(n + k log n)).
-    - Maintain a min-heap of size k while scanning all products (O(n log k)).
-    - For large databases: people use ANN indexes (FAISS, HNSW, ScaNN) to get ~O(log n) or sublinear retrieval with tiny accuracy loss
+1. Compute embeddings / internal representations for the static part once.
+2. Reuse them across multiple requests.
+3. Only process the dynamic part (user query, last turn, variables).
 
-5. Pytest:
+### 4. Similar-product recommendation engine
 
-Key Rules:
-- Test files must start with test_
-- Test functions must start with test_
-- Your tests should be separate from your application code
-- Why Is __init__.py There? To make Python treat the folder as a package. Without it, imports might fail depending on 
-how you run pytest.
-- What Is pytest.ini? pytest.ini is a configuration file that tells pytest:
-  - Where tests live 
-  - Which markers exist 
-  - Example:
-```
+We are building a simple similar-product recommendation engine. We have a DB of items,
+where each item is represented by an embedding.
+
+➡️ Solution: [`solutions/lvt/similar_products.py`](solutions/lvt/similar_products.py)
+
+Important points:
+
+- Cosine similarity equals the dot product of two vectors divided by the product of their
+  magnitudes. To measure semantic similarity between product embeddings, use cosine
+  similarity rather than a raw dot product. This means the vectors must be normalized;
+  otherwise **vector magnitude will incorrectly inflate similarity scores.**
+- To find top-k products we can:
+  - Compute similarity scores for all products and sort them — `O(n log n)`.
+  - Build a max heap from all scores and extract the top k — `O(n + k log n)`.
+  - Maintain a min-heap of size k while scanning all products — `O(n log k)`.
+  - For large databases, use ANN indexes (FAISS, HNSW, ScaNN) to get ~`O(log n)` or
+    sublinear retrieval with tiny accuracy loss.
+
+### 5. Pytest
+
+Key rules:
+
+- Test files must start with `test_`.
+- Test functions must start with `test_`.
+- Your tests should be separate from your application code.
+- **Why is `__init__.py` there?** To make Python treat the folder as a package. Without
+  it, imports might fail depending on how you run pytest.
+- **What is `pytest.ini`?** A configuration file that tells pytest where tests live,
+  which markers exist, etc. Example:
+
+```ini
 [pytest]
 testpaths = tests
 python_files = test_*.py
 addopts = -v
-
-
-This means:
-
-Only look inside tests/
-
-Only run files that match test_*.py
-
-Always run in verbose mode
 ```
 
+This means: only look inside `tests/`, only run files that match `test_*.py`, and always
+run in verbose mode.
+
+---
+
 ## BitPin
-### Probability and Statistics
-1. The probability of a fraud transaction in 0.008 and if the transaction is fraud we are gonna raise a flag 95% of the times, if the transaction is not a fraud we are gonna raise the flag 4% of the times. The cost of not rasing a flag if the transaction is fraud is 500 dollars and the cost of raising a flag if the transaction is not fraud is 10 dollars. Shall we deploy the model to production or not?
 
-    Option A is not deploying the model:
+### Probability and statistics
 
-    Cost per transaction = P(fraud) * 500 = 4$
+**1.** The probability of a fraud transaction is 0.008. If the transaction is fraud we
+raise a flag 95% of the time; if it is not fraud we raise the flag 4% of the time. The
+cost of not raising a flag on a fraud transaction is \$500, and the cost of raising a
+flag on a non-fraud transaction is \$10. Should we deploy the model to production?
 
-    Option B is deploying the model:
+_Option A — not deploying the model:_
 
-    Cost per transaction = P(~flag|fraud) * P(fraud) * 500 + P(flag|~fraud) * P(~fraud) * 10 = 0.05 * 0.008 * 500 + 0.04 * 0.992 * 10 = 0.2 + 0.3968 = 0.5968$
+`Cost per transaction = P(fraud) * 500 = $4`
 
-    So it makes sense to deploy the model to production
+_Option B — deploying the model:_
 
-2. We can either call a person to be our customer with 100% success rate with 5$ cost, or we can send push notification with 30% success rate with 1$ cost. Which one is better?
+```
+Cost per transaction = P(~flag|fraud) * P(fraud) * 500 + P(flag|~fraud) * P(~fraud) * 10
+                     = 0.05 * 0.008 * 500 + 0.04 * 0.992 * 10
+                     = 0.2 + 0.3968
+                     = $0.5968
+```
 
-   Let's say we want to have N customers with first approach we have to spend 5N $ but with second approach 10/3N $ is enough so second approach is more cost efficient.
+So it makes sense to deploy the model to production.
+
+**2.** We can either call a person to become our customer with a 100% success rate at \$5
+cost, or send a push notification with a 30% success rate at \$1 cost. Which is better?
+
+Say we want N customers. With the first approach we spend `5N $`; with the second
+approach `10/3 N $` is enough, so the second approach is more cost-efficient.
 
 ### GenAI
-1. How can you make sure your semantic search model can work well for queries like "تیشرت قرمز زیر ۲۰ دلار مردانه"?
 
-   I suggest two approaches:
-   - This approach ensures that all conditions are met, but it increases the probability of returning no results in the system. We can use NER to understand the conditions specified in the query—such as color, price, and gender—and then apply these as variant filters in our QD search.
-   - This approach cannot guarantee that all conditions are met 100%, but it almost always returns a result. We can train the model with more generated data and create batches with targeted hard negatives. For example, if our dataset contains a T-shirt with a positive product pair, we can use additional specifications of that product—such as color and price—add them to the query, and generate more training pairs (e.g., red T-shirt, T-shirt under $20, red T-shirt under $20). We can also repeat more important pairs more frequently; for instance, if price is a critical constraint, we can assign it a higher weight. Additionally, we should use similar but incorrect products as negatives, such as a blue T-shirt as a negative for a red T-shirt query. In this type of training, masking can also be effective, allowing the model to learn to attend to all specified constraints.
-  
-2. We have trained a model to encode queries and product titles to embeddings, if we add extra features to these embeddings like price or CR to use for personilzed or bussiness aware search, do the close embeddings still stay close to each other in this new space?
+**1.** How can you make sure your semantic-search model works well for queries like
+`"تیشرت قرمز زیر ۲۰ دلار مردانه"`?
 
-   In my experience, the embedding had 512 dimensions, and I added fewer than 10 features to it. Since the number of added features was insignificant compared to the embedding size, it did not noticeably affect the system. However, theoretically, adding new dimensions does change the distance calculations.
+Two approaches:
 
-3. What if we want both text and image data at the same time when searching?
-   - Concatenation
-   - Shared Multimodal Embedding Space (CLIP-style)
-   - Averaging (Only safe if text and image embeddings are in the same semantic space, A simple rule of thumb: If you didn’t explicitly train the model to be averaged, don’t average it.)
+- This approach ensures all conditions are met, but it increases the probability of
+  returning no results. Use NER to understand the conditions specified in the query —
+  such as color, price, and gender — and then apply these as variant filters in our QD
+  search.
+- This approach cannot guarantee that all conditions are met 100%, but it almost always
+  returns a result. Train the model with more generated data and create batches with
+  targeted hard negatives. For example, if our dataset contains a T-shirt with a positive
+  product pair, use additional specifications of that product — such as color and price —
+  add them to the query, and generate more training pairs (e.g., red T-shirt, T-shirt
+  under \$20, red T-shirt under \$20). We can also repeat more important pairs more
+  frequently; for instance, if price is a critical constraint, assign it a higher weight.
+  Additionally, use similar but incorrect products as negatives, such as a blue T-shirt as
+  a negative for a red T-shirt query. In this type of training, masking can also be
+  effective, allowing the model to learn to attend to all specified constraints.
 
+**2.** We trained a model to encode queries and product titles to embeddings. If we add
+extra features to these embeddings (like price or CR) to use for personalized or
+business-aware search, do the close embeddings still stay close to each other in this new
+space?
+
+In my experience, the embedding had 512 dimensions and I added fewer than 10 features.
+Since the number of added features was insignificant compared to the embedding size, it
+did not noticeably affect the system. However, theoretically, adding new dimensions does
+change the distance calculations.
+
+**3.** What if we want both text and image data at the same time when searching?
+
+- Concatenation.
+- Shared multimodal embedding space (CLIP-style).
+- Averaging (only safe if text and image embeddings are in the same semantic space — a
+  rule of thumb: if you didn't explicitly train the model to be averaged, don't average
+  it).
 
 ### Statistical ML
-1. After using K-fold cross validation which of the K scalers that were fit shall I use?
 
-K-fold cross-validation is only used for model evaluation and is used when you want a robust performance estimate instead of relying on one lucky/unlucky split. All the models you train are temporary, you do NOT average model weights. After CV is done: 👉 You train ONE final model and the scaler of this final model should be used.
+**1.** After using K-fold cross-validation, which of the K scalers that were fit should I
+use?
 
-2. An archaeologist want to take a picture of three pillars, he wants a picture in which these pillars are as far each other as possible so he can eximane them better, the worst case scenario is that these pillars get behind each other in the picture. Where do you suggest him to stand for the best picture possible?
+K-fold cross-validation is only used for model evaluation — when you want a robust
+performance estimate instead of relying on one lucky/unlucky split. All the models you
+train are temporary; you do **not** average model weights. After CV is done, you train
+**one** final model, and the scaler of this final model should be used.
 
-When we take a picture, we map a 3D world onto a 2D plane (a reduction in dimensionality). We want to do this in a way that preserves as much information as possible, meaning the projected points have maximum variance. Therefore, we use **PCA**.
+**2.** An archaeologist wants to take a picture of three pillars such that they are as far
+from each other as possible (the worst case is the pillars hiding behind each other).
+Where should they stand for the best picture?
+
+When we take a picture, we map a 3D world onto a 2D plane (a reduction in
+dimensionality). We want to preserve as much information as possible, meaning the
+projected points have maximum variance. Therefore we use **PCA**.
 
 ### Python
-what is generator?
 
-A generator is a special type of function that **returns values once at a time, instead of all at once**. It uses the keyword **yield** instead of return. They save memory and good for large dataset (for example **Data Loaders** are generators)
+**What is a generator?**
+
+A generator is a special type of function that **returns values one at a time, instead of
+all at once**. It uses the keyword **`yield`** instead of `return`. Generators save memory
+and are good for large datasets (for example, **data loaders** are generators).
+
+---
 
 ## CAT
-### Statistics and Probability
-1. A basket contains eigth red apples and two green apples. Find the probability that all four apples drawn are red.
 
-   P = 8/10 * 7/9 * 6/8 * 5/7 =  1/3
+### Statistics and probability
 
-2. The model answer: [0, 1, 1, 0, 0], the real target: [1, 1, 1, 0, 1]. Calculate precision and recall.
+**1.** A basket contains eight red apples and two green apples. Find the probability that
+all four apples drawn are red.
 
-   precision = TP/(TP + FP)
-   
-   recall = TP/(TP + FN)
-   
-    - TP: 2
-    - FP: 0
-    - FN: 2
+`P = 8/10 * 7/9 * 6/8 * 5/7 = 1/3`
 
-    precision: 100%
+**2.** Model answer: `[0, 1, 1, 0, 0]`; real target: `[1, 1, 1, 0, 1]`. Calculate
+precision and recall.
 
-    recall: 50%
+```
+precision = TP / (TP + FP)
+recall    = TP / (TP + FN)
+
+TP: 2   FP: 0   FN: 2
+
+precision: 100%
+recall:    50%
+```
 
 ### Coding
-3. Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, 
-return an empty string "".
-    
-    The answer is in **CAT.py**
+
+**3.** Write a function to find the longest common prefix string amongst an array of
+strings. If there is no common prefix, return an empty string `""`.
+
+➡️ Solution: [`solutions/cat/longest_common_prefix.py`](solutions/cat/longest_common_prefix.py)
 
 ### Python
-4. What is magic method? methods starting and ending with __ and it does operator overloading
-5. what is decorator? A function that gets a function add some capabilities to it and returns another function. Look at 
-**decorator.py**
+
+**4.** What is a magic method? Methods starting and ending with `__` that perform operator
+overloading.
+
+**5.** What is a decorator? A function that takes a function, adds some capability to it,
+and returns another function.
+
+➡️ Solution: [`solutions/cat/decorator.py`](solutions/cat/decorator.py)
 
 ### AI/ML
-6. What is vLLM? vLLM is a high performance inference engine for LLMs, efficiently serves models like LLaMA or GPT
-7. What is the difference between feature drift and concept drift? 
-##### Feature Drift
-The input feature distribution changes but the relationship between input and target stays the same. The world looks different but the rules haven't changed. For example users used to search for cheap cellphones but now they search for expensive ones. Model sees inputs it hasn't seen before so performance degrades, retraining usually fixes it.
-##### Concept Drift
-The relationship between input and output changes (the rule of the game changes), for example people used to mean fruit when searching for apple now they mean cellphone. Now your model is fundamentally wrong. Retraining alone may not solve it, you may need new model design, new labels, new features.
-##### 🔥 Rule of thumb
-- If inputs changed → feature drift
-- If predictions became wrong for same inputs → concept drift
 
-## Osano
-Imagine an agent that tries to be our ai-data-scientist, in the first node it gets our requirement and in second node it translates our requirement to SQL and then in third and fourth node it created plots and reports, now if user mentions in first node that it wants the plot in a specific color like pink, how can this data be passed to the third node? the second node's job is to create SQL queries, won't this type of data be missed?
+**6.** What is vLLM? A high-performance inference engine for LLMs that efficiently serves
+models like LLaMA or GPT.
 
-We should use a shared structured state that persists across all nodes. The first step should extract and decompose the user’s intent into different dimensions (e.g., data, analysis, presentation). Each node then operates only on its relevant part of the state and updates it without overwriting other parts. This avoids information loss and removes the need for nodes to infer or recover missing intent.
+**7.** What is the difference between feature drift and concept drift?
 
+**Feature drift** — the input feature distribution changes but the relationship between
+input and target stays the same. The world looks different but the rules haven't changed.
+For example, users used to search for cheap cellphones but now they search for expensive
+ones. The model sees inputs it hasn't seen before, so performance degrades; retraining
+usually fixes it.
 
+**Concept drift** — the relationship between input and output changes (the rules of the
+game change). For example, people used to mean fruit when searching for "apple"; now they
+mean the cellphone. Now your model is fundamentally wrong. Retraining alone may not solve
+it — you may need a new model design, new labels, new features.
 
+🔥 **Rule of thumb**
 
-# Goodfolio
-1. Find the first unrepeated character in a string. The answer is in **goodfolio.py**
-2. Given a list of numbers and a target, return all tuples that their sum is equal to that target. The answer is in **goodfolio.py**
+- If inputs changed → feature drift.
+- If predictions became wrong for the same inputs → concept drift.
 
+---
 
-# Picnic
-## System Design
-At Picnic, we have a section for recipes and articles. Design a personalized recommendation system for this content.
+## PertroPower
 
-# FanDuel
-## System Design
-There's a SQLite database on this machine called products.db. It has a table called product_qa with three columns: product, question, and answer. Build me a simple app where a store associate types in a question, and the app finds the most relevant answer from that table and displays it — along with which product it came from.
+Imagine an agent that acts as our AI data scientist. In the first node it gets our
+requirement; in the second node it translates the requirement to SQL; in the third and
+fourth nodes it creates plots and reports. If the user mentions in the first node that
+they want the plot in a specific color (like pink), how can this data be passed to the
+third node? The second node's job is to create SQL queries — won't this type of data be
+lost?
 
-My answer to this question as an AI engineer was a "semantic search design", I said I'd use a NL model to transform all the questions in the product_qa table to embeddings and store those embeddings in a vector db like Qdrant and keep the primary key as metadata. Then transform the coming question to embedding using the same model and search for closest question or questions using my vector db then I'd either just return the answer of top 1 (semantic search) or generate an answer using an LLM call providing the top k answers as context.
+We should use a shared structured state that persists across all nodes. The first step
+should extract and decompose the user's intent into different dimensions (e.g., data,
+analysis, presentation). Each node then operates only on its relevant part of the state
+and updates it without overwriting other parts. This avoids information loss and removes
+the need for nodes to infer or recover missing intent.
 
-but I was rejected 
+---
 
-I guess the reason is I jumped into a complex, costy solution before trying out simpler solution, a simpler solution would be:
+## Goodfolio
 
-using SQLite FTS5 + BM25 ranking: SQLite has a builtin full text search engine that lets you create a special virtual table optimized for searching text columns and BM25 is an algorithm upon TF-IDF that helps estimate the relevance of a document, it won't need any external vector db, any embedding model. My approach will do better when questions are semantically different or same, the table is large, and the app must handle phrases well but it's not wise to jump into that solution before testing this easy one. 
+**1.** Find the first unrepeated character in a string.
+**2.** Given a list of numbers and a target, return all tuples whose sum equals that
+target.
 
-# HomeDepot
-A data scientist hands you a Jupyter notebook. It trains an XGBoost model on a pandas DataFrame, pickles the model, and has a few cells with ad-hoc feature engineering. Your job is to get this into production. Walk me through what you do, in order.
+➡️ Solution: [`solutions/goodfolio/array_problems.py`](solutions/goodfolio/array_problems.py)
 
-We should change the jupyter notebook to python script so it can be run thoroughly, for ad-hoc feature engineering I'm gonna use a feature store like Feast and for model storing I'm gonna use something like S3 and MLFlow for model versioning, I may change the code itself so it uses Dask instead of pandas to speed things up, if the model is trained periodically I'll use something like Airflow and I'll have to write a microservice by a language like Python or Golang to serve the model
+---
 
-I was accepted but an imporved answer:
+## Picnic
 
-you think about **reproducibility, correctness, serving, monitoring and operational risk**
+### System design
 
-1. Clarify batch or online inference, latency requirement, retraining cadence, expected input data and success metric
-2. Make the notebook reproducible, I would pin dependencies, exact training data, rerun it end to end.
-3. Extract the notebook into a package or pipeline
-4. Add model versioning and monitoring and define online and offline metrics
-5. Choose serving pattern: a batch scoring job or an online API
-6. Containerize, CI/CD, unit and smoke test, rollback support
-7. Finally suggesting to make the code more mature and increase speed or throuput by using Dask or Spark instead of pandas.
+We have a section for recipes and articles. Design a personalized recommendation system
+for this content.
 
+---
 
-# Headspace
-In our app people can chat with our AI bot addressing the issues they have like work pressure, anxiety etc. We have a section in our app that recommends articles to users, how do you design it?
+## FanDuel
+
+### System design
+
+There's a SQLite database on this machine called `products.db`. It has a table called
+`product_qa` with three columns: `product`, `question`, and `answer`. Build a simple app
+where a store associate types in a question, and the app finds the most relevant answer
+from that table and displays it — along with which product it came from.
+
+My answer as an AI engineer was a **semantic-search design**: use an NL model to transform
+all the questions in the `product_qa` table to embeddings and store those embeddings in a
+vector DB like Qdrant, keeping the primary key as metadata. Then transform the incoming
+question to an embedding using the same model and search for the closest question(s) using
+the vector DB. Then either return the answer of the top 1 (semantic search) or generate an
+answer using an LLM call providing the top-k answers as context.
+
+**But I was rejected.**
+
+I think the reason is I jumped into a complex, costly solution before trying out a simpler
+one. A simpler solution:
+
+Use **SQLite FTS5 + BM25 ranking**. SQLite has a built-in full-text search engine that
+lets you create a special virtual table optimized for searching text columns, and BM25 is
+an algorithm built on TF-IDF that helps estimate the relevance of a document. It won't
+need any external vector DB or embedding model. My semantic approach does better when
+questions are semantically different or the same, the table is large, and the app must
+handle phrases well — but it's not wise to jump into that solution before testing the easy
+one.
+
+---
+
+## Aveehealth
+
+A data scientist hands you a Jupyter notebook. It trains an XGBoost model on a pandas
+DataFrame, pickles the model, and has a few cells with ad-hoc feature engineering. Your
+job is to get this into production. Walk me through what you do, in order.
+
+My answer: we should convert the notebook to a Python script so it can be run end to end.
+For the ad-hoc feature engineering I'd use a feature store like Feast; for model storage,
+something like S3, plus MLflow for model versioning. I might change the code to use Dask
+instead of pandas to speed things up. If the model is trained periodically, I'd use
+something like Airflow, and I'd write a microservice in Python or Go to serve the model.
+
+**I was accepted**, but an improved answer thinks about **reproducibility, correctness,
+serving, monitoring, and operational risk**:
+
+1. Clarify batch vs online inference, latency requirement, retraining cadence, expected
+   input data, and success metric.
+2. Make the notebook reproducible — pin dependencies, fix exact training data, rerun it
+   end to end.
+3. Extract the notebook into a package or pipeline.
+4. Add model versioning and monitoring; define online and offline metrics.
+5. Choose a serving pattern: a batch scoring job or an online API.
+6. Containerize; CI/CD; unit and smoke tests; rollback support.
+7. Finally, suggest making the code more mature and increasing speed/throughput by using
+   Dask or Spark instead of pandas.
+
+---
+
+## Headspace
+
+In our app, people can chat with our AI bot about issues like work pressure, anxiety, etc.
+We have a section that recommends articles to users. How do you design it?
 
 My response:
 
-Basically there are two ways to view this problem,
+There are basically two ways to view this problem:
 
-1. I have enough data what articles my users read and enjoy and I can figure out relations between my users to see if they look similar to each other or not, and based on that I can simply say user Y looks like user X and if user X liked this article I should suggest it to user Y too. (collaborative filtering) (Evidence from behavior)
+1. I have enough data on what articles my users read and enjoy, and I can figure out
+   relationships between users to see whether they look similar to each other. Based on
+   that I can say user Y looks like user X, and if user X liked this article I should
+   suggest it to user Y too. (**Collaborative filtering** — evidence from behavior.)
+2. Without considering how close or far users act, based on the features that users and
+   articles have, and the info on what each user liked, we can create embeddings for users
+   and articles. In this embedding space, the articles that users like are close to each
+   other. (**Two-tower model** — relevance to the current problem.)
 
-2. Without considering how close or far from each other users act, based on the features that users have and the features that articles have and the info on what each user liked and enjoyed we can create embeddings for users and article, in this embedding world the articles that users like are close to each other. (two tower model) (Relevance to the current problem)
+For an MVP, I'd try collaborative filtering because it's straightforward and easy to
+implement. The catch: you need a significant amount of data, and it doesn't work for new
+users or new articles.
 
-For an MVP, I try collaborative filtering because its straight forward and easy to implement, the point is you have to have significant amount of data and it doesn't work for new users and new articles.
+In a high-scale real system we need both views, so we either combine the results of both
+approaches or (as I prefer) use a hybrid model from the beginning so we can choose:
 
-In a high scale real system we need both views so we either use both approaches and combine results or as I prefer to use a hybrid model from the beginning so we can choose:
+1. Two-tower contrastive model.
+2. Feature-aware matrix factorization.
 
-1. two-tower contrastive model
-2. feature-aware matrix factorization
+These two approaches are similar but not the same. It makes more sense to use feature-aware
+MF when you have rich, good-quality features for users and articles, for example:
 
-These two approaches are similar but not the same, basically it makes more sense to use feature aware MF when you have rich, good quality features for user and article for example
+- U: `issue=anxiety, situation=workplace, urgency=high`
+- A: `context=breathing, length=short`
 
-U: issue=anxiety, situation=workplace, urgency=high
+In that case feature-aware MF can learn a latent representation for each feature and the
+relations between them. But if you only want to use user chat history and article content,
+a two-tower contrastive model makes more sense.
 
-A: context=breathing, length=short
+Usually feature-aware MF isn't used by itself — theoretically it works, but for high-scale
+use cases it is too slow. Imagine a new user conversation happens: we then have to
+recompute the score between this user and all articles, which can be millions, so it's not
+good for real-time or fast processes. It's fine if you do it periodically (e.g. once a
+week), but if you want to update whenever a new article or new chat arrives, it's not
+realistic to recompute all those scores that fast. In the two-tower contrastive approach,
+when a new chat arrives we can easily and quickly recompute the user embedding; we already
+have article embeddings in a vector DB, and using heuristic nearest-neighbor approaches
+like HNSW we can get related articles in no time.
 
-in that case feature aware MF can help learn a latent represantation for each feature and the relation between them but if you only want to use user chat history and article content then a two tower comtrastive model makes more sense
-Usually feature aware MF is not used by itself though theroticaly it works but for high scale use cases it is so slow, imagine a new use converstaion happen, then we have to calculate the score between this user and all articles again, it can be millions of articles so it's not good for real time or fast processes, fine if you want to do it periodically like once a week but if you want to update yourself whenever a new article or new use chat converstiona comes by, it is not realistic to think we can claculate the all these scores again so fast. In two tower contrastive model approach when a user new chat comes by we can easily and fast compute the user embedding again, we already have articles embeddings in a vector db and using huristic nearest neighbor approaches like HNSW we can get related articles in no time.
+Usually we use a **two-stage system**. A two-tower contrastive model retrieves
+semantically relevant candidates efficiently from the full catalog. We can include
+features such as urgency and article length in the towers, but the final score is still
+constrained to a similarity between independently computed embeddings. A ranker sees each
+user–article combination jointly and can model richer interactions (such as urgency with
+article length) using a larger computational budget, because it evaluates only hundreds of
+candidates. Explicit ranking features may also make individual score contributions easier
+to inspect. Finally, I can iterate on and retrain the ranker without retraining the
+retrieval model or rebuilding the vector index.
 
-Usually we use two-stage sytstem. A two tower contrastive model retrives semantically relevant candidates efficiently from the full catalog. We can include features such as urgency and article length in the towers, but the final score is still constrained to a similarity between independently computed embeddings. A ranker sees each user-article combination jointlly and can model richer interactions, such as urgency with article length, using a larger computational budget because it evaluates only hundreds of candidates. Explicit ranking features may also make individual score contributions easier to inspect. Finally, I can iterate on and retrain the ranker without retraining the retrieval model or rebuilding the vector index.
+After retrieval, we get to **ranking**:
 
-After the retreival, we get to ranking:
+1. For each article and request, create features:
+   - article: article length, retrieval score, etc.
+   - request: urgency, age, etc.
+2. During training we attach a label indicating whether the article was helpful for that
+   request. The factorization machine learns embeddings for feature values. Gradient
+   descent makes interactions common in helpful examples more positive and interactions
+   common in unhelpful examples more negative.
+3. At prediction, create the same features and sort by score.
 
-1. For each article and the request create features:
+**Follow-up:** some articles are preferred in the daytime and others at night. What if it
+is daytime but the retrieved articles are for nighttime?
 
-   article: article length, retrieval score, etc.
+Two approaches:
 
-   request: urgency, age, etc.
+1. If it is really necessary to show nighttime articles at night and daytime articles by
+   day, we have to put it in the retrieval step — meaning we put it in the embedding. For
+   example, take the embedding from the two-tower model, increase the embedding size, and
+   put article time-preference and request time into the article and request embeddings,
+   so in retrieval it plays a role and can be given more or less importance based on how
+   much weight that dimension gets in the dot product.
+2. If it is just a preference, not a necessity, we can retrieve k articles and, if none are
+   in the time we'd like, retrieve 2k, and so on.
 
-2. During training we attach a label to see either the article was helpful for that request or not, the factorization machine learns embeddings for feature values. Gradient descent makes interactions common in helpful ezamples more positive and interactions common in unhelpful examples more negative.
-3. At prediction, create the same features and sort by score
+---
 
-Some articles are prefered to be showen in daytime and some other in nighttime, what if it is daytime but are the articles retrieved are for night time?
+## Sema4
 
-There are two approaches I suggest
+**What is the difference between a skill and an agent?**
 
-1. If it is really necessary and important to show nighttime articles at night and daytime articles at day, we have to put it in the retrieval step, which means we have to put it in the embedding, for example get the embedding from two tower model and then increase the embedding size and put article time preference and time of request in article and request embeddings so in retrieval it plays a role and can be given more or less importance based on how much of the dot calculation weight is given to that dimention
-2. If it is just a preference not necessary we can retrieve k articles and if none are in the time we'd like we can retrieve 2k and so on.
+A **skill** is an instruction package. It tells the model how to do a specific class of
+task, such as following a coding convention. It says: "here is how to do X."
 
-# Sema4
-1. What is the difference between skill and agent?
-   
-    A skill is an instruction package. It tells the model how to do a specific class of task, such as following a coding convention. It says: "here is how to do X".
-   
-    An agent is an autonomous system that can plan, decide next steps, use tools, manage state, and iterate toward a goal.
-   
+An **agent** is an autonomous system that can plan, decide next steps, use tools, manage
+state, and iterate toward a goal.

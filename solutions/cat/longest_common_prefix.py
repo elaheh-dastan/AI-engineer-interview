@@ -18,6 +18,7 @@ def longest_prefix_all(phrases):
     return longest_prefix
 
 
-phrases = ['flower', 'flawless', 'floor', 'flare']
+if __name__ == "__main__":
+    phrases = ['flower', 'flawless', 'floor', 'flare']
 
-print(longest_prefix_all(phrases))
+    print(longest_prefix_all(phrases))
