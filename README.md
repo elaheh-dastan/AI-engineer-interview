@@ -473,83 +473,83 @@ serving, monitoring, and operational risk**:
 1. In our app, people can chat with our AI bot about issues like work pressure, anxiety, etc.
 We have a section that recommends articles to users. How do you design it?
 
-My response:
-
-There are basically two ways to view this problem:
-
-1. I have enough data on what articles my users read and enjoy, and I can figure out
-   relationships between users to see whether they look similar to each other. Based on
-   that I can say user Y looks like user X, and if user X liked this article I should
-   suggest it to user Y too. (**Collaborative filtering** — evidence from behavior.)
-2. Without considering how close or far users act, based on the features that users and
-   articles have, and the info on what each user liked, we can create embeddings for users
-   and articles. In this embedding space, the articles that users like are close to each
-   other. (**Two-tower model** — relevance to the current problem.)
-
-For an MVP, I'd try collaborative filtering because it's straightforward and easy to
-implement. The catch: you need a significant amount of data, and it doesn't work for new
-users or new articles.
-
-In a high-scale real system we need both views, so we either combine the results of both
-approaches or (as I prefer) use a hybrid model from the beginning so we can choose:
-
-1. Two-tower contrastive model.
-2. Feature-aware matrix factorization.
-
-These two approaches are similar but not the same. It makes more sense to use feature-aware
-MF when you have rich, good-quality features for users and articles, for example:
-
-- U: `issue=anxiety, situation=workplace, urgency=high`
-- A: `context=breathing, length=short`
-
-In that case feature-aware MF can learn a latent representation for each feature and the
-relations between them. But if you only want to use user chat history and article content,
-a two-tower contrastive model makes more sense.
-
-Usually feature-aware MF isn't used by itself — theoretically it works, but for high-scale
-use cases it is too slow. Imagine a new user conversation happens: we then have to
-recompute the score between this user and all articles, which can be millions, so it's not
-good for real-time or fast processes. It's fine if you do it periodically (e.g. once a
-week), but if you want to update whenever a new article or new chat arrives, it's not
-realistic to recompute all those scores that fast. In the two-tower contrastive approach,
-when a new chat arrives we can easily and quickly recompute the user embedding; we already
-have article embeddings in a vector DB, and using heuristic nearest-neighbor approaches
-like HNSW we can get related articles in no time.
-
-Usually we use a **two-stage system**. A two-tower contrastive model retrieves
-semantically relevant candidates efficiently from the full catalog. We can include
-features such as urgency and article length in the towers, but the final score is still
-constrained to a similarity between independently computed embeddings. A ranker sees each
-user–article combination jointly and can model richer interactions (such as urgency with
-article length) using a larger computational budget, because it evaluates only hundreds of
-candidates. Explicit ranking features may also make individual score contributions easier
-to inspect. Finally, I can iterate on and retrain the ranker without retraining the
-retrieval model or rebuilding the vector index.
-
-After retrieval, we get to **ranking**:
-
-1. For each article and request, create features:
-   - article: article length, retrieval score, etc.
-   - request: urgency, age, etc.
-2. During training we attach a label indicating whether the article was helpful for that
-   request. The factorization machine learns embeddings for feature values. Gradient
-   descent makes interactions common in helpful examples more positive and interactions
-   common in unhelpful examples more negative.
-3. At prediction, create the same features and sort by score.
-
-**Follow-up:** some articles are preferred in the daytime and others at night. What if it
-is daytime but the retrieved articles are for nighttime?
-
-Two approaches:
-
-1. If it is really necessary to show nighttime articles at night and daytime articles by
-   day, we have to put it in the retrieval step — meaning we put it in the embedding. For
-   example, take the embedding from the two-tower model, increase the embedding size, and
-   put article time-preference and request time into the article and request embeddings,
-   so in retrieval it plays a role and can be given more or less importance based on how
-   much weight that dimension gets in the dot product.
-2. If it is just a preference, not a necessity, we can retrieve k articles and, if none are
-   in the time we'd like, retrieve 2k, and so on.
+   My response:
+   
+   There are basically two ways to view this problem:
+   
+   1. I have enough data on what articles my users read and enjoy, and I can figure out
+      relationships between users to see whether they look similar to each other. Based on
+      that I can say user Y looks like user X, and if user X liked this article I should
+      suggest it to user Y too. (**Collaborative filtering** — evidence from behavior.)
+   2. Without considering how close or far users act, based on the features that users and
+      articles have, and the info on what each user liked, we can create embeddings for users
+      and articles. In this embedding space, the articles that users like are close to each
+      other. (**Two-tower model** — relevance to the current problem.)
+   
+   For an MVP, I'd try collaborative filtering because it's straightforward and easy to
+   implement. The catch: you need a significant amount of data, and it doesn't work for new
+   users or new articles.
+   
+   In a high-scale real system we need both views, so we either combine the results of both
+   approaches or (as I prefer) use a hybrid model from the beginning so we can choose:
+   
+   1. Two-tower contrastive model.
+   2. Feature-aware matrix factorization.
+   
+   These two approaches are similar but not the same. It makes more sense to use feature-aware
+   MF when you have rich, good-quality features for users and articles, for example:
+   
+   - U: `issue=anxiety, situation=workplace, urgency=high`
+   - A: `context=breathing, length=short`
+   
+   In that case feature-aware MF can learn a latent representation for each feature and the
+   relations between them. But if you only want to use user chat history and article content,
+   a two-tower contrastive model makes more sense.
+   
+   Usually feature-aware MF isn't used by itself — theoretically it works, but for high-scale
+   use cases it is too slow. Imagine a new user conversation happens: we then have to
+   recompute the score between this user and all articles, which can be millions, so it's not
+   good for real-time or fast processes. It's fine if you do it periodically (e.g. once a
+   week), but if you want to update whenever a new article or new chat arrives, it's not
+   realistic to recompute all those scores that fast. In the two-tower contrastive approach,
+   when a new chat arrives we can easily and quickly recompute the user embedding; we already
+   have article embeddings in a vector DB, and using heuristic nearest-neighbor approaches
+   like HNSW we can get related articles in no time.
+   
+   Usually we use a **two-stage system**. A two-tower contrastive model retrieves
+   semantically relevant candidates efficiently from the full catalog. We can include
+   features such as urgency and article length in the towers, but the final score is still
+   constrained to a similarity between independently computed embeddings. A ranker sees each
+   user–article combination jointly and can model richer interactions (such as urgency with
+   article length) using a larger computational budget, because it evaluates only hundreds of
+   candidates. Explicit ranking features may also make individual score contributions easier
+   to inspect. Finally, I can iterate on and retrain the ranker without retraining the
+   retrieval model or rebuilding the vector index.
+   
+   After retrieval, we get to **ranking**:
+   
+   1. For each article and request, create features:
+      - article: article length, retrieval score, etc.
+      - request: urgency, age, etc.
+   2. During training we attach a label indicating whether the article was helpful for that
+      request. The factorization machine learns embeddings for feature values. Gradient
+      descent makes interactions common in helpful examples more positive and interactions
+      common in unhelpful examples more negative.
+   3. At prediction, create the same features and sort by score.
+   
+   **Follow-up:** some articles are preferred in the daytime and others at night. What if it
+   is daytime but the retrieved articles are for nighttime?
+   
+   Two approaches:
+   
+   1. If it is really necessary to show nighttime articles at night and daytime articles by
+      day, we have to put it in the retrieval step — meaning we put it in the embedding. For
+      example, take the embedding from the two-tower model, increase the embedding size, and
+      put article time-preference and request time into the article and request embeddings,
+      so in retrieval it plays a role and can be given more or less importance based on how
+      much weight that dimension gets in the dot product.
+   2. If it is just a preference, not a necessity, we can retrieve k articles and, if none are
+      in the time we'd like, retrieve 2k, and so on.
 
 
 2. We have an EBB application and we want to escalate if user is talking about doing something hurtful like commiting suidsice, how can we make sure we're doing it as fast as possible?
