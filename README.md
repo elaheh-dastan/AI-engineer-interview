@@ -570,10 +570,12 @@ We have a section that recommends articles to users. How do you design it?
 
 ## Sema4
 
-**What is the difference between a skill and an agent?**
+1. **What is the difference between a skill and an agent?**
 
 A **skill** is an instruction package. It tells the model how to do a specific class of
 task, such as following a coding convention. It says: "here is how to do X."
 
 An **agent** is an autonomous system that can plan, decide next steps, use tools, manage
 state, and iterate toward a goal.
+
+2. Create a small code working with MCP.
