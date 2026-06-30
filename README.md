@@ -561,7 +561,9 @@ We have a section that recommends articles to users. How do you design it?
    Cautions: this is the repsonse I said in the interview and I was rejected, I guess the approach was correct but I used some words that showed me naive. For example
       1. I said I'm going to keep a black list words and raise in case I see any of them, this approach is going to make so many mistakes like "I'm going to take all pills tonigh" is gonna
       pass and "I'm not suicidal" is going to raise, instead I should've said I'm going to have a rule based system that is gonna raise high risk for example in case of seeing some predefined
-      phrases alongside some historical signals.   
+      phrases alongside some historical signals.
+      2. I think I didn't emphasize enough on how recall is much more important than accuracy in this type of tasks so in case of timeout we fail and not ccontinue the conversation normally.
+      3. The other weakness in my answer is I said I either raise or not, but it is wiser to have different severity levels
    
 
 ---
