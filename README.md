@@ -553,6 +553,15 @@ We have a section that recommends articles to users. How do you design it?
 
 
 2. We have an EBB application and we want to escalate if user is talking about doing something hurtful like commiting suidsice, how can we make sure we're doing it as fast as possible?
+   To be as fast as possible I try to have two approaches run in **parallel**:
+      1. A fast deterministic detector (rule based)
+      2. A fast, light weight risk classifier ML model
+   and escalate as soon as any of them detects high risk
+
+   Cautions: this is the repsonse I said in the interview and I was rejected, I guess the approach was correct but I used some words that showed me naive. For example
+      1. I said I'm going to keep a black list words and raise in case I see any of them, this approach is going to make so many mistakes like "I'm going to take all pills tonigh" is gonna
+      pass and "I'm not suicidal" is going to raise, instead I should've said I'm going to have a rule based system that is gonna raise high risk for example in case of seeing some predefined
+      phrases alongside some historical signals.   
    
 
 ---
