@@ -567,8 +567,32 @@ We have a section that recommends articles to users. How do you design it?
       3. The other weakness in my answer is I said I either raise or not, but it is wiser to have different severity levels
 
 3. How do we feed chat history when it gets large?
+
    Of course, we don't feed the entire conversation history and make a summary of that before feeding it to the model, but that's all I said, I said I'll use a model to get the conversations and current
-   history summary and output a new history summary and so on. what is more senior is to have a compact safety context object instead of just a summary text.
+   history summary and output a new history summary and so on. what is more senior is to have a compact safety context object instead of just a summary text. A senior design would have multiple layers of
+   context:
+      1. current user message
+      2. recent conversation window
+      3. rolling safety summary
+      4. retrieved high-risk past snippets
+
+   instead of just text summary of previous chats. It should be something like
+      ```json
+      {
+         "current_user_message": "I can't do this anymore tonight",
+         "recent_turns": [
+            {"role": "user", "text": "Everything feels pointless"},
+            {"role": "assistant", "text": "I'm sorry you're feeling this way..."},
+            {"role": "user", "text": "I don't think anyone would care if I disappeared."},
+         ],
+         "safety summary": {
+            "previous_suicidal_ideation": true,
+            "previous_self_harm_intent": false,
+            "mentioned_plan": false,
+            "mentioned_means": false
+         }
+      }
+      ```
 
 ---
 
