@@ -553,6 +553,7 @@ We have a section that recommends articles to users. How do you design it?
 
 
 2. We have an EBB application and we want to escalate if user is talking about doing something hurtful like commiting suidsice, how can we make sure we're doing it as fast as possible?
+   
    To be as fast as possible I try to have two approaches run in **parallel**:
       1. A fast deterministic detector (rule based)
       2. A fast, light weight risk classifier ML model
@@ -564,7 +565,8 @@ We have a section that recommends articles to users. How do you design it?
       phrases alongside some historical signals.
       2. I think I didn't emphasize enough on how recall is much more important than accuracy in this type of tasks so in case of timeout we fail and not ccontinue the conversation normally.
       3. The other weakness in my answer is I said I either raise or not, but it is wiser to have different severity levels
-   
+
+3. How do we feed chat history when it gets large?
 
 ---
 
