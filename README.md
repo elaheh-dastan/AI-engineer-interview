@@ -567,6 +567,8 @@ We have a section that recommends articles to users. How do you design it?
       3. The other weakness in my answer is I said I either raise or not, but it is wiser to have different severity levels
 
 3. How do we feed chat history when it gets large?
+   Of course, we don't feed the entire conversation history and make a summary of that before feeding it to the model, but that's all I said, I said I'll use a model to get the conversations and current
+   history summary and output a new history summary and so on. what is more senior is to have a compact safety context object instead of just a summary text.
 
 ---
 
