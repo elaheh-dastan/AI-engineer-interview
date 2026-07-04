@@ -589,10 +589,26 @@ We have a section that recommends articles to users. How do you design it?
             "previous_suicidal_ideation": true,
             "previous_self_harm_intent": false,
             "mentioned_plan": false,
-            "mentioned_means": false
-         }
+            "mentioned_means": false,
+            "mentioned_time": "tonight",
+            "protective_factors_mentioned": ["friend", "therapy appointment"],
+            "last_escalation_level": "P2",
+            "highest_previous_level": "P2"
+         },
+         "retrieved_relevant_snippets": [
+            "I don't want to wake up tomorrow",
+            "I have pills at home"
+         ]
       }
       ```
+   This gives the model the important context without sending thousands of tokens.
+   The arcitecture:
+      ```json
+         Last N turns
+         safety summary
+         safety relavant messages
+      ```
+   The **rolling safety summary** is the most important part
 
 ---
 
