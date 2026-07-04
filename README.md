@@ -610,6 +610,16 @@ We have a section that recommends articles to users. How do you design it?
       ```
    The **rolling safety summary** is the most important part
 
+4. How can you monitor FP and FN and use these feedback to improve the system?
+   FP are gathered easily, we understand if we escalated when we shouldn't have, we just have to gather the data.
+
+   But FN are hidden, we should have a human-labeling pipeline over stratfied samples of non-escalated chats. For sampling we can use
+
+      1. random samples of non escalated chats stratified over language, age, religion, region, etc.
+      2. near threshold model score
+      3. user later escalated
+      4. user stopped chatting with us
+
 ---
 
 ## Sema4
