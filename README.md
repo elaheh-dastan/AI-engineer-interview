@@ -651,3 +651,16 @@ state, and iterate toward a goal.
 2. Create a small code working with MCP.
    
 I implemented a read-only MCP server that exposed internal knowledge-base/runbook search to an AI coding assistant. The server exposed typed tools, resources, and prompts; the host application handled model interaction, user consent, and tool invocation. I used stdio for local IDE usage and Streamable HTTP for remote deployment.”
+
+MCP is a client-host-server protocol
+
+Common case: internal KB
+
+| MCP primitive | Example              | Interview explanation                                                               |
+| ------------- | -------------------- | ----------------------------------------------------------------------------------- |
+| Tool          | `kb.search_docs`     | Model-callable function. Used when the model needs to search external/private data. |
+| Resource      | `kb://docs/{doc_id}` | Read-only contextual data. Similar to a GET endpoint.                               |
+| Prompt        | `answer_from_kb`     | Reusable workflow/template for the user or host.                                    |
+
+
+
