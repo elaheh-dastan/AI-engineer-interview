@@ -29,4 +29,22 @@ DOCS = [
 def search_runbook(query: str) -> list[dict[str, str]]:
     # The model sees this description when deciding whether to call the tool. This is more important than it looks. Good tool descriptions improve tool selection.
     """Search internal runbook documents by keyword."""
+    # normalization
     query = query.lower()
+    
+    results = []
+
+    # you probably would not loop over all documents in Python. You would query a search index.
+    for doc in DOCS:
+        # This combines the document title and body into one searchable string
+        text = f"{doc['title']} {doc['body']}".lower()
+        if query in text:
+            results.append(doc)
+
+    
+    return results[:3]
+
+
+if __name__ == "__main__":
+    mcp.run()
+
