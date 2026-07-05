@@ -48,3 +48,14 @@ def search_runbook(query: str) -> list[dict[str, str]]:
 if __name__ == "__main__":
     mcp.run()
 
+
+
+# The flow is:
+# 1. The MCP client connects to this server.
+# 2. The client asks: what tools do you have?
+# 3. The server says: I have search_runbook(query: str).
+# 4. The model decides this tool is useful.
+# 5. The client calls search_runbook with query = "rollback".
+# 6. The server returns the matching runbook document.
+# 7. The model uses that result to answer the user.
+
