@@ -8,6 +8,7 @@ from mcp.server.fastmcp import FastMCP
 # The host application connects to this server and discovers what tools it exposes. The host is usually something like Claude.
 mcp = FastMCP("runbook-search")
 
+# In production this would call our internal search service or documentation database.
 DOCS = [
     {
         "title": "Rollback deployment",
@@ -23,5 +24,9 @@ DOCS = [
     },
 ]
 
-# In production this would call our internal search service or documentation database.
-
+# The decorator exposes this function as a model-callable MCP tool. The host can list it, inspect its schema, and call it with arguments.
+@mcp.tool()
+def search_runbook(query: str) -> list[dict[str, str]]:
+    # The model sees this description when deciding whether to call the tool. This is more important than it looks. Good tool descriptions improve tool selection.
+    """Search internal runbook documents by keyword."""
+    query = query.lower()
