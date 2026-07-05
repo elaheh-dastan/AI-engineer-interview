@@ -620,6 +620,22 @@ We have a section that recommends articles to users. How do you design it?
       3. user later escalated
       4. user stopped chatting with us
 
+   I would not just feed the erros back to the model blindly. I would build an error taxonomy:
+      1. slang
+      2. missed plan/means
+      3. sarcasm
+      4. multilingual miss
+      5. etc
+  
+   Then I would decide what the fix is:
+      1. data labelling
+      2. threshold
+      3. rules
+      4. context summarization
+      5. model architecture
+  
+   Before deploying a new model, I would replay it against frozen validation sets
+
 ---
 
 ## Sema4
