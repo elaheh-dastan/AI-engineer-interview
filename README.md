@@ -693,3 +693,7 @@ The business wants to automatically extract a structured object like:
 Why this is difficult?
    1. Documents do not have the same layout
 
+      **Text-only** extraction reads the document as a long string.
+
+      **Layout-aware** extraction reads the document as text plus where that text appears on the page.
+
