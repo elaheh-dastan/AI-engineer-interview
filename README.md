@@ -690,3 +690,6 @@ The business wants to automatically extract a structured object like:
 }
 ```
 
+Why this is difficult?
+   1. Documents do not have the same layout
+
