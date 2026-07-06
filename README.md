@@ -662,5 +662,31 @@ Common case: internal KB
 | Resource      | `kb://docs/{doc_id}` | Read-only contextual data. Similar to a GET endpoint.                               |
 | Prompt        | `answer_from_kb`     | Reusable workflow/template for the user or host.                                    |
 
+3. Extracting invoice data from supplier documents with no fixed format
 
+   Imagine a company receives thousands of supplier invoices every month by email, portal upload, scanned PDF, photo, or attached document. Every supplier uses a different invoice template. Some invoices are clean digital PDFs, some are scanned, some have tables across multiple pages, and some include extra pages such as purchase orders, delivery notes, bank details, or terms and conditions.
+
+The business wants to automatically extract a structured object like:
+
+```json
+{
+  "supplier_name": "ABC Manufacturing Ltd",
+  "invoice_number": "INV-2026-00481",
+  "invoice_date": "2026-06-12",
+  "due_date": "2026-07-12",
+  "purchase_order_number": "PO-77819",
+  "currency": "GBP",
+  "subtotal": 1250.00,
+  "tax": 250.00,
+  "total": 1500.00,
+  "line_items": [
+    {
+      "description": "Steel brackets",
+      "quantity": 100,
+      "unit_price": 12.50,
+      "amount": 1250.00
+    }
+  ]
+}
+```
 
