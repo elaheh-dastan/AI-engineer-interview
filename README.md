@@ -697,3 +697,10 @@ Why this is difficult?
 
       **Layout-aware** extraction reads the document as text plus where that text appears on the page.
 
+      Use layout-aware extraction rather than only text extraction
+      
+   2. OCR errors corrupt important fields
+
+        Example: INV-10058 -> lNV-1O058
+
+        Treat OCR as a noisy upstream signal, not the final answer. 
