@@ -697,10 +697,33 @@ Why this is difficult?
 
       **Layout-aware** extraction reads the document as text plus where that text appears on the page.
 
-      Use layout-aware extraction rather than only text extraction
+      Use layout-aware extraction rather than only text extraction. Especially for Tables which are much harder than single fields layout models are useful because they preserve the 2D structure
       
    2. OCR errors corrupt important fields
 
         Example: INV-10058 -> lNV-1O058
 
-        Treat OCR as a noisy upstream signal, not the final answer. 
+        Treat OCR as a noisy upstream signal, not the final answer.
+      
+   3. Some fields are ambiguous
+
+         For example, an invoice may contain several dates:
+            ```json
+               Invoice Date: 2026-06-12
+               Delivery Date: 2026-06-10
+               Due Date: 2026-07-12
+               Payment Terms: 30 days
+            ```
+         A naive model may extract the wrong date.
+         Extract with evidence, not just values.
+         ask it to return:
+         ```json
+            {
+              "field": "invoice_date",
+              "value": "2026-06-12",
+              "evidence_text": "Invoice Date: 12/06/2026",
+              "page": 1,
+              "bbox": [420, 90, 560, 115],
+              "confidence": 0.94
+            }
+         ```
