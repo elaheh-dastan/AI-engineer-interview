@@ -727,3 +727,11 @@ Why this is difficult?
               "confidence": 0.94
             }
          ```
+   4. LLMs can hallucinate missing fields
+
+      Use a strict extraction contract:
+      ```json
+         If the field is missing, return null.
+         Do not infer values.
+      ```
+      Then validate the output with a schema. Do not trust the LLM output directly. Parse it, validate it, and reject or route low-confidence fields to human review.
