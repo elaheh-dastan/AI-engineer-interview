@@ -740,3 +740,11 @@ Why this is difficult?
    It is not a rule but heuristically yes. Our H0 is a feature and target have no relation, then we specify a threshold alpha, if p-value is under alpha we reject the null 
    hypothesis, meaning we accept there is a relation between them but if p-value is above the threshold then we are unable to reject the null hypothesis that doesn't mean
    we accept the H0 meaning there isn't a relaion, based on use case it may be a good heuristic approach at start.
+
+
+## FunctionHealth
+Build a URLShortener using AI tools.
+
+1. Why Postgres as database? because I have more experience working with Postgres so I choose it at least for start
+2. Why Fast-API? because it is good at handling parallel requests
+3. 
