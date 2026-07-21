@@ -747,4 +747,16 @@ Build a URLShortener using AI tools.
 
 1. Why Postgres as database? because I have more experience working with Postgres so I choose it at least for start
 2. Why Fast-API? because it is good at handling parallel requests
-3. 
+3. Explain the function of encode?
+   ```py
+   def encode(n: int) -> str:
+    """Encode a positive integer into a base62 string."""
+    if n <= 0:
+        raise ValueError("id must be a positive integer")
+    chars = []
+    while n:
+        n, rem = divmod(n, BASE)
+        chars.append(ALPHABET[rem])
+    return "".join(reversed(chars))
+   ```
+This function takes 'n' as paramter, n is the primary key in our database, it is incremented by one each time a new record is inserted
