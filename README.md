@@ -759,4 +759,4 @@ Build a URLShortener using AI tools.
         chars.append(ALPHABET[rem])
     return "".join(reversed(chars))
    ```
-This function takes 'n' as paramter, n is the primary key in our database, it is incremented by one each time a new record is inserted
+This function takes 'n' as paramter, n is the primary key in our database, it is incremented by one each time a new record is inserted. Then we calculate n modulo BASE where BASE is 62 and store it in the remainder variable, also update n to the integer quotient of n divided by BASE. Then we append the remth character from ALPHABET to chars list and return the reverse of chars.
