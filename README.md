@@ -760,3 +760,5 @@ Build a URLShortener using AI tools.
     return "".join(reversed(chars))
    ```
 This function takes 'n' as paramter, n is the primary key in our database, it is incremented by one each time a new record is inserted. Then we calculate n modulo BASE where BASE is 62 and store it in the remainder variable, also update n to the integer quotient of n divided by BASE. Then we append the remth character from ALPHABET to chars list and return the reverse of chars.
+4. What is the size of the short url this function returns? should this be a fixed size? why? how many short urls can we have with a fixed size?
+The length of the short url would be log base `BASE` of `n`.
