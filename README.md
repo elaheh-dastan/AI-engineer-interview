@@ -763,3 +763,4 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
 
 4. What is the size of the short url this function returns? should this be a fixed size? why? how many short urls can we have with a fixed size?
 The length of the short url would be log base `BASE` of `n`.
+We should make sure the URL shortener is making sense meaning the URL we are returning is actually short like for example 5 character code so not a fixed size but a threshold for length.
