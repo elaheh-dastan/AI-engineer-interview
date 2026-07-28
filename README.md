@@ -768,4 +768,13 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
    We should make sure the URL shortener is making sense meaning the URL we are returning is actually short like for example 5 character code so not a fixed size but a threshold for length.
 
    With a length threshold of `t` and with Base62 we are having 62 one char code, 62 squared two char codes, 62 cubed three char codes, 62 to the fourth power four char codes and 62 to the fifth power
-   five char codes and the total count of short URLs will be the sum of them 
+   five char codes and the total count of short URLs will be the sum of them
+
+5. How can you add a TTL for short URLs?
+
+   I add a new column in database and when inserting a new short URL, I calculate the time and date that short URL is valid until then, then when a short URL is entered and I catch the original URL,
+   I also get the date and time it is valid until then and compare it with now and in case it is invalid I return 404
+
+6. Should we delete the URLs after TTL is passed?
+
+   
