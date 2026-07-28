@@ -772,9 +772,10 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
 
 5. How can you add a TTL for short URLs?
 
-   I add a new column in database and when inserting a new short URL, I calculate the time and date that short URL is valid until then, then when a short URL is entered and I catch the original URL,
-   I also get the date and time it is valid until then and compare it with now and in case it is invalid I return 404
+   I add a new column in database and when inserting a new short URL, I calculate the date and that short URL is valid until then, then when a short URL is entered and I catch the original URL,
+   I also get the date and time it is valid until then and compare it with now and in case it is invalid I return 404. Some databases support TTL built-in, also if we had used Redis in our design, Redis
+   supports TTL built-in too.
 
-6. Should we delete the URLs after TTL is passed?
+7. Should we delete the URLs after TTL is passed?
 
    
