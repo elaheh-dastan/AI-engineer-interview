@@ -777,5 +777,10 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
    supports TTL built-in too.
 
 7. Should we delete the URLs after TTL is passed?
+   Yes, as we discussed in point 4, we want to keep the length of the short URL below a certain threshold. Since we have a limited alphabet—for example, 62 characters—the total number of unique short URLs that can be generated is finite. Eventually, the system will exhaust the entire key space and will no longer be able to generate new short URLs.
+
+Even if we delete expired URLs after their TTL, we can still reach a situation where every possible short URL has been generated and is currently in use. In that case, we have no option other than returning a 503 Service Unavailable response. Deleting expired URLs doesn't eliminate this possibility, but it does smooth things out by reclaiming capacity over time.
+
+If expired URLs are removed, we can recycle those keys using a Key Generation Service (KGS), allowing that portion of the key space to be reused for new URLs.
 
    
