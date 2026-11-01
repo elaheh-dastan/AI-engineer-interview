@@ -785,4 +785,20 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
 
 8. 
 
-   
+## TechTorch
+I've built an ai assistant that has access to database of all purchases, a customer is only allowed to talk about his own purchases, question like:
+
+was my purchase more expensive than average
+what was bought in this transactionID (of his friend) 
+
+are privacy breaches
+
+as a senior AI engineer what is the best way to fix that?
+
+The best solution is to enforce authorization at the database/tool layer, not at the LLM or agent layer.
+
+The fundamental principle is:
+
+**Least-privilege tool access**: The LLM can only perform permitted operations. The LLM should never be responsible for deciding which customer's data it is allowed to access.
+
+
