@@ -786,7 +786,7 @@ This function takes 'n' as paramter, n is the primary key in our database, it is
 8. 
 
 ## TechTorch
-I've built an ai assistant that has access to database of all purchases, a customer is only allowed to talk about his own purchases, question like:
+1. I've built an ai assistant that has access to database of all purchases, a customer is only allowed to talk about his own purchases, question like:
 
 was my purchase more expensive than average
 what was bought in this transactionID (of his friend) 
@@ -801,4 +801,4 @@ The fundamental principle is:
 
 **Least-privilege tool access**: The LLM can only perform permitted operations. The LLM should never be responsible for deciding which customer's data it is allowed to access.
 
-
+2. Any kind of task that can be done by a tool call should be a tool call cause we all prefer deterministic behavior and no mistake, so many of customer questions in this project needed mathematic calculations which would better be tool calls.
