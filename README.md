@@ -802,3 +802,8 @@ The fundamental principle is:
 **Least-privilege tool access**: The LLM can only perform permitted operations. The LLM should never be responsible for deciding which customer's data it is allowed to access.
 
 2. Any kind of task that can be done by a tool call should be a tool call cause we all prefer deterministic behavior and no mistake, so many of customer questions in this project needed mathematic calculations which would better be tool calls.
+
+
+## Jaena systems
+1. 5 people sitting at a table, each with either a black or white hat. Three people have one hat color. Each person can see the color of others hats but not himself. how many of them can be sure of their own hat color?
+   2 people can be sure
