@@ -839,6 +839,9 @@ it will be: 2 + 1 + 10 + 2 + 2 = 17 minutes
       def print_combinations(src: str, ans: str, k: int):
             if k == 0:
                print(ans)
+               return
+            if len (src) < k:
+               return
             print_combinations(src[1:], ans + src[0], k - 1)
             print_combinations(src[1:], ans, k)
 ```
