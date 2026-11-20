@@ -807,3 +807,23 @@ The fundamental principle is:
 ## Jaena systems
 1. 5 people sitting at a table, each with either a black or white hat. Three people have one hat color. Each person can see the color of others hats but not himself. how many of them can be sure of their own hat color?
    2 people can be sure
+2. Four people are standing on one side of a bridge at night. They need a torch to cross the bridge and they only have one, and no more than two people can cross at a time. Each person takes a different amount of time to cross: 1, 2, 7, and 10 minutes, respectively.
+
+What is the minimum amount of time required for all four people to cross the bridge?
+
+   My wrong answer:
+      Two people should cross the bridge using the torch and one of them should come back with the torch, heuristically the fastest person should come back each time so it will be:
+      1. 1 and 2 -> takes 2 min
+      2. 1 -> takes 1 min
+      3. 1 and 7 -> takes 7 min
+      4. 1 -> takes 1 min
+      5. 1 and 10 -> takes 10 min
+
+   summing up the step it takes 2 + 1 + 7 + 1 + 10 = 21 minutes
+
+   The right answer
+      Heuristically the slowest people should cross the bridge together but it only works well if one of them doesn't have to come back and it easily can happen cause we have other resources at the other side of the bridge that can be put in use. 
+      Let's have a little illustration:
+         <img width="762" height="682" alt="bridge drawio" src="https://github.com/user-attachments/assets/886bde4f-785a-4c80-9eba-9ce533d8b672" />
+
+      
