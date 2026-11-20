@@ -828,3 +828,18 @@ What is the minimum amount of time required for all four people to cross the bri
    <img width="762" height="682" alt="bridge drawio" src="https://github.com/user-attachments/assets/886bde4f-785a-4c80-9eba-9ce533d8b672" />
 
 it will be: 2 + 1 + 10 + 2 + 2 = 17 minutes      
+
+3. We have a string of length n like `abcd` for n = 4 and for a given k we want to print all the ways we can choose k from n, for example for k = 2: ab, ac, ad, bc, bd, cd, **order doesn't matter**. The function's name we want you to write is `print_combinations`:
+   1. understand your answer/approach before implementing it, it prevents you from getting stuck in the middle of implementation
+   2. test your approach (prior to implementation) with **small** numbers
+
+      Approach: We start at the beginning of the string. For each character, we have two options: either select it or skip it. If we select the character, we need to select one fewer character from the remaining string. If we skip it, we need to select all the required characters from the remaining string.
+
+```python
+      def print_combinations(src: str, ans: str, k: int):
+            if k == 0:
+               print(ans)
+            print_combinations(src[1:], ans + src[0], k - 1)
+            print_combinations(src[1:], ans, k)
+```
+     
