@@ -824,6 +824,7 @@ What is the minimum amount of time required for all four people to cross the bri
    The right answer
       Heuristically the slowest people should cross the bridge together but it only works well if one of them doesn't have to come back and it easily can happen cause we have other resources at the other side of the bridge that can be put in use. 
       Let's have a little illustration:
-         <img width="762" height="682" alt="bridge drawio" src="https://github.com/user-attachments/assets/886bde4f-785a-4c80-9eba-9ce533d8b672" />
-
       
+   <img width="762" height="682" alt="bridge drawio" src="https://github.com/user-attachments/assets/886bde4f-785a-4c80-9eba-9ce533d8b672" />
+
+it will be: 2 + 1 + 10 + 2 + 2 = 17 minutes      
