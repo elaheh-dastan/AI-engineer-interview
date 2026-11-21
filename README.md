@@ -845,4 +845,7 @@ it will be: 2 + 1 + 10 + 2 + 2 = 17 minutes
             print_combinations(src[1:], ans + src[0], k - 1)
             print_combinations(src[1:], ans, k)
 ```
-     
+
+   4. What is the difference between Tool Calling and MCP?
+      - Tool Calling let's an LLM request a function that an application executes
+      - MCP is a standardized protocol that let's multiple AI applications discover and use tools without custom integrations.   
